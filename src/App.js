@@ -4,6 +4,7 @@ import './App.css';
 import config from './config'
 import firebase from 'firebase'
 import SignInScreen from './screens/SignInScreen'
+import DatabaseTest from './screens/DatabaseTest'
 
 firebase.initializeApp(config.firebase)
 
@@ -17,6 +18,7 @@ class App extends Component {
           <h1 className="App-title">Welcome to Reactss</h1>
         </header>
         <SignInScreen/>
+        <DatabaseTest/>
       </div>
     );
   }

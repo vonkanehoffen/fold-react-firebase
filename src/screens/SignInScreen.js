@@ -2,6 +2,8 @@ import React from 'react';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase';
 
+// See https://github.com/firebase/firebaseui-web#firebaseui-for-web--auth
+
 class SignInScreen extends React.Component {
 
   // The component's Local state.
