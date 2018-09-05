@@ -5,7 +5,8 @@ import firebase from 'firebase'
 class DatabaseTest extends Component {
 
   state = {
-    folds: false
+    folds: false,
+    single: false,
   }
 
   db = firebase.firestore()
@@ -13,8 +14,18 @@ class DatabaseTest extends Component {
   componentDidMount() {
     // See https://joshpitzalis.svbtle.com/crud
     this.db.collection('folds').get().then(collection => {
-      const folds = collection.docs.map(doc => doc.data())
+      const folds = collection.docs.map(doc => {
+        console.log(doc)
+        return {
+          id: doc.id,
+          ...doc.data()
+        }
+      })
       this.setState({ folds })
+    })
+
+    this.db.collection('folds').doc('NFvayKBqfbG1MA58QqPO').onSnapshot(doc => {
+      this.setState({ single: doc.data() })
     })
   }
 
@@ -23,8 +34,9 @@ class DatabaseTest extends Component {
     console.log("USER ID:", userId)
 
     this.db.collection('folds').add({
-      description: 'from app again again',
+      description: 'from app with date',
       name: 'Mrs. App',
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
     })
       .then(function(docRef) {
         console.log("Document written with ID: ", docRef.id);
@@ -39,6 +51,7 @@ class DatabaseTest extends Component {
       <div>
         <h2>DatabaseTest</h2>
         <button onClick={this.writeUserData}>Write DB</button>
+        <pre style={{background: '#f98'}}>{JSON.stringify(this.state.single, null, 2)}</pre>
         <pre>{JSON.stringify(this.state.folds, null, 2)}</pre>
       </div>
     )
