@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import config from './config'
-import firebase from 'firebase'
 import SignInScreen from './screens/SignInScreen'
 import DatabaseTest from './screens/DatabaseTest'
+import CreateFold from './screens/CreateFold'
 
-firebase.initializeApp(config.firebase)
+
 
 class App extends Component {
 
@@ -15,9 +14,10 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to Reactss</h1>
+          <h1 className="App-title">Welcome to React</h1>
         </header>
         <SignInScreen/>
+        <CreateFold/>
         <DatabaseTest/>
       </div>
     );

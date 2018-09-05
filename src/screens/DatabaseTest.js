@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { db } from '../firebase'
 import firebase from 'firebase'
 
 class DatabaseTest extends Component {
@@ -9,31 +10,39 @@ class DatabaseTest extends Component {
     single: false,
   }
 
-  db = firebase.firestore()
-
   componentDidMount() {
     // See https://joshpitzalis.svbtle.com/crud
-    this.db.collection('folds').get().then(collection => {
-      const folds = collection.docs.map(doc => {
-        console.log(doc)
-        return {
-          id: doc.id,
-          ...doc.data()
-        }
-      })
-      this.setState({ folds })
-    })
+    // db.collection('folds').get().then(collection => {
+    //   const folds = collection.docs.map(doc => {
+    //     console.log(doc)
+    //     return {
+    //       id: doc.id,
+    //       ...doc.data()
+    //     }
+    //   })
+    //   this.setState({ folds })
+    // })
 
-    this.db.collection('folds').doc('NFvayKBqfbG1MA58QqPO').onSnapshot(doc => {
-      this.setState({ single: doc.data() })
+    db.collection('folds').onSnapshot(doc => {
+      const folds = doc.docs.map(doc => {
+            console.log('onSnapshot: ', doc)
+            return {
+              id: doc.id,
+              ...doc.data()
+            }
+          })
+          this.setState({ folds })
     })
+    // db.collection('folds').doc('NFvayKBqfbG1MA58QqPO').onSnapshot(doc => {
+    //   this.setState({ single: doc.data() })
+    // })
   }
 
   writeUserData = () => {
     const userId = firebase.auth().currentUser.uid;
     console.log("USER ID:", userId)
 
-    this.db.collection('folds').add({
+    db.collection('folds').add({
       description: 'from app with date',
       name: 'Mrs. App',
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
