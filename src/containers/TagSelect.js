@@ -40,7 +40,7 @@ const renderSuggestion = ({ suggestion, index, itemProps, highlightedIndex, sele
       selected={isHighlighted}
       component="div"
       style={{
-        fontWeight: isSelected ? 500 : 400,
+        fontWeight: isSelected ? 500 : 400, textTransform: 'capitalize'
       }}
     >
       {suggestion}
@@ -88,7 +88,7 @@ class TagSelect extends React.Component {
     db.collection('userTags').doc(firebase.auth().currentUser.uid).onSnapshot(doc => {
       this.setState({
         loading: false,
-        userTags: doc.data().tags
+        userTags: doc.data() ? doc.data().tags : []
       })
     })
   }
@@ -104,7 +104,7 @@ class TagSelect extends React.Component {
 
     // If space is pressed, add whatever we have as a new tag
     if(keycode(event) === 'space' && inputValue.trim().length > 0) {
-      setTags([...selectedTags, inputValue.trim()])
+      setTags([...selectedTags, inputValue.trim().toLowerCase()])
       this.setState({inputValue: ''})
       event.preventDefault()
     }
@@ -216,6 +216,7 @@ const styles = theme => ({
   },
   chip: {
     margin: `${theme.spacing.unit / 2}px ${theme.spacing.unit / 4}px`,
+    textTransform: 'capitalize',
   },
   inputRoot: {
     flexWrap: 'wrap',

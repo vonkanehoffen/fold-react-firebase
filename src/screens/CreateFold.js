@@ -86,6 +86,7 @@ class CreateFold extends Component {
         />
         <TagSelect selectedTags={this.state.tags} setTags={this.setTags}/>
         <Button variant="raised" onClick={this.save}>Save</Button>
+        <pre>{JSON.stringify(this.state, null, 2)}</pre>
       </div>
     )
   }
