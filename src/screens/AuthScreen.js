@@ -1,10 +1,11 @@
 import React from 'react';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase';
+import { Redirect } from 'react-router-dom'
 
 // See https://github.com/firebase/firebaseui-web#firebaseui-for-web--auth
 
-class SignInScreen extends React.Component {
+class AuthScreen extends React.Component {
 
   // The component's Local state.
   state = {
@@ -48,6 +49,11 @@ class SignInScreen extends React.Component {
         </div>
       );
     }
+
+    return (
+      <Redirect to="/"/>
+    )
+
     return (
       <div>
         <h1>My App</h1>
@@ -58,4 +64,4 @@ class SignInScreen extends React.Component {
   }
 }
 
-export default SignInScreen
+export default AuthScreen

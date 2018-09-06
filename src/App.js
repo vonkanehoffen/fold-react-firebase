@@ -1,25 +1,31 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import logo from './logo.svg';
 import './App.css';
-import SignInScreen from './screens/SignInScreen'
+import AuthScreen from './screens/AuthScreen'
+import HomeScreen from './screens/HomeScreen'
 import DatabaseTest from './screens/DatabaseTest'
 import CreateFold from './screens/CreateFold'
-
+import NavBar from './containers/NavBar'
+import AuthObserver from './screens/AuthObserver'
 
 
 class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <SignInScreen/>
-        <CreateFold/>
-        <DatabaseTest/>
-      </div>
+      <Router>
+        <Switch>
+          <Route path="/auth" component={AuthScreen}/>
+          <Route path="/">
+            <AuthObserver>
+              <NavBar/>
+              <Route path="/new" component={CreateFold}/>
+              <Route path="/" component={HomeScreen}/>
+            </AuthObserver>
+          </Route>
+        </Switch>
+      </Router>
     );
   }
 }
