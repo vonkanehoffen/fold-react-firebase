@@ -7,8 +7,8 @@ import HomeScreen from './screens/HomeScreen'
 import DatabaseTest from './screens/DatabaseTest'
 import CreateFold from './screens/CreateFold'
 import NavBar from './containers/NavBar'
-import AuthObserver from './screens/AuthObserver'
-
+import AuthObserver from './containers/AuthObserver'
+import WelcomeScreen from './screens/WelcomeScreen'
 
 class App extends Component {
 
@@ -21,6 +21,7 @@ class App extends Component {
             <AuthObserver>
               <NavBar/>
               <Switch>
+                <Route path="/welcome" component={WelcomeScreen}/>
                 <Route path="/new" component={CreateFold}/>
                 <Route path="/" component={HomeScreen}/>
               </Switch>

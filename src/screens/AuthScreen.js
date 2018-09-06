@@ -1,7 +1,8 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase';
-import { Redirect } from 'react-router-dom'
+import { db } from '../firebase'
 
 // See https://github.com/firebase/firebaseui-web#firebaseui-for-web--auth
 
@@ -9,7 +10,8 @@ class AuthScreen extends React.Component {
 
   // The component's Local state.
   state = {
-    isSignedIn: false // Local signed-in state.
+    isSignedIn: false, // Local signed-in state.
+    isNewUser: false,
   };
 
   // Configure FirebaseUI.
@@ -23,7 +25,10 @@ class AuthScreen extends React.Component {
     ],
     callbacks: {
       // Avoid redirects after sign-in.
-      signInSuccessWithAuthResult: () => false
+      signInSuccessWithAuthResult: (res) => {
+        console.log('signInSuccessWithAuthResult:', res.additionalUserInfo)
+        this.setState({ isNewUser: res.additionalUserInfo.isNewUser })
+      }
     }
   };
 
@@ -50,17 +55,12 @@ class AuthScreen extends React.Component {
       );
     }
 
+    if(this.state.isNewUser) return <Redirect to="/welcome"/>
+
     return (
       <Redirect to="/"/>
     )
-
-    return (
-      <div>
-        <h1>My App</h1>
-        <p>Welcome {firebase.auth().currentUser.displayName}! You are now signed-in!</p>
-        <a onClick={() => firebase.auth().signOut()}>Sign-out</a>
-      </div>
-    );
+    
   }
 }
 

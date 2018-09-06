@@ -10,11 +10,15 @@ class NavBar extends Component {
   signOut = () => {
     firebase.auth().signOut()
   }
+  deleteAccount = () =>
+    firebase.auth().currentUser.delete()
+
 
   render() {
     return (
       <div>
         <h3>NavBar</h3>
+        <p>Hello, {firebase.auth().currentUser.displayName}</p>
         <Link to="/">
           <Button variant="raised">Home</Button>
         </Link>
@@ -22,6 +26,8 @@ class NavBar extends Component {
           <Button variant="raised">New</Button>
         </Link>
         <Button variant="outlined" onClick={this.signOut}>Sign Out</Button>
+        <Button variant="outlined" onClick={this.deleteAccount}>Delete account</Button>
+
       </div>
     )
   }
