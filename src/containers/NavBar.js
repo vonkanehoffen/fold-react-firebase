@@ -26,7 +26,7 @@ class NavBar extends Component {
           <Button variant="raised">New</Button>
         </Link>
         <Button variant="outlined" onClick={this.signOut}>Sign Out</Button>
-        <Button variant="outlined" onClick={this.deleteAccount}>Delete account</Button>
+        <Button variant="flat" onClick={this.deleteAccount}>Delete account</Button>
 
       </div>
     )

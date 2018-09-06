@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
+import keycode from 'keycode'
+import firebase from 'firebase'
+import { withRouter } from 'react-router-dom'
+import { db } from '../firebase'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
-import { withRouter } from 'react-router-dom'
-import firebase from 'firebase'
-import { db } from '../firebase'
+// import TagSuggestion from '../containers/TagSuggestion'
+import TagSelect from '../containers/TagSelect'
 
 class CreateFold extends Component {
 
@@ -12,19 +15,24 @@ class CreateFold extends Component {
     title: '',
     uri: '',
     description: '',
+    tagFilter: '',
+    tags: [],
   }
 
-  setProperty = (e) => {
+  setProperty = e => {
     this.setState({
       [e.target.name]: e.target.value,
     })
   }
 
+  setTags = tags => this.setState({ tags })
+
   save = () => {
     const userId = firebase.auth().currentUser.uid;
     const { history } = this.props
+    const { title, uri, description, tags } = this.state
     db.collection('folds').add({
-      ...this.state,
+      title, uri, description, tags,
       userId,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     })
@@ -62,6 +70,7 @@ class CreateFold extends Component {
           value={this.state.description}
           onChange={this.setProperty}
         />
+        <TagSelect selectedTags={this.state.tags} setTags={this.setTags}/>
         <Button variant="raised" onClick={this.save}>Save</Button>
       </div>
     )
