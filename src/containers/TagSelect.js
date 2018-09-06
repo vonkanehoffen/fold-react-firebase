@@ -9,6 +9,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Chip from '@material-ui/core/Chip';
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { db } from '../firebase'
+import firebase from 'firebase'
 
 // See https://material-ui-next.com/demos/autocomplete/
 
@@ -30,19 +31,19 @@ const renderInput = (inputProps) => {
 
 const renderSuggestion = ({ suggestion, index, itemProps, highlightedIndex, selectedItem }) => {
   const isHighlighted = highlightedIndex === index;
-  const isSelected = (selectedItem || '').indexOf(suggestion.id) > -1;
+  const isSelected = (selectedItem || '').indexOf(suggestion) > -1;
 
   return (
     <MenuItem
       {...itemProps}
-      key={suggestion.id}
+      key={suggestion}
       selected={isHighlighted}
       component="div"
       style={{
         fontWeight: isSelected ? 500 : 400,
       }}
     >
-      {suggestion.title}
+      {suggestion}
     </MenuItem>
   );
 }
@@ -59,7 +60,7 @@ const getSuggestions = (inputValue, suggestions) => {
 
   return suggestions.filter(suggestion => {
     const keep =
-      (!inputValue || suggestion.id.toLowerCase().indexOf(inputValue.toLowerCase().trim()) !== -1) &&
+      (!inputValue || suggestion.toLowerCase().indexOf(inputValue.toLowerCase().trim()) !== -1) &&
       count < 5;
 
     if (keep) {
@@ -84,13 +85,10 @@ class TagSelect extends React.Component {
   }
 
   componentDidMount() {
-    db.collection('userTags').onSnapshot(doc => {
-      console.log('userTags...', doc)
+    db.collection('userTags').doc(firebase.auth().currentUser.uid).onSnapshot(doc => {
       this.setState({
         loading: false,
-        userTags: doc.docs.map(doc => ({
-          id: doc.id, ...doc.data()
-        }))
+        userTags: doc.data().tags
       })
     })
   }
@@ -180,7 +178,7 @@ class TagSelect extends React.Component {
                   renderSuggestion({
                     suggestion,
                     index,
-                    itemProps: getItemProps({ item: suggestion.title }),
+                    itemProps: getItemProps({ item: suggestion }),
                     highlightedIndex,
                     selectedItem,
                   }),

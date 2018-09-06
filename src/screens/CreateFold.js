@@ -31,6 +31,8 @@ class CreateFold extends Component {
     const userId = firebase.auth().currentUser.uid;
     const { history } = this.props
     const { title, uri, description, tags } = this.state
+
+    // Write the fold
     db.collection('folds').add({
       title, uri, description, tags,
       userId,
@@ -42,6 +44,18 @@ class CreateFold extends Component {
       })
       .catch(function(error) {
         console.error("Error adding document: ", error);
+      });
+
+    // Add / update tags
+    db.collection('userTags').doc(firebase.auth().currentUser.uid).set({
+      tags: firebase.firestore.FieldValue.arrayUnion(...tags)
+    }, { merge: true })
+      .then(function(docRef) {
+        console.log("Tags written with ID: ", docRef);
+        history.push('/')
+      })
+      .catch(function(error) {
+        console.error("Error adding tags: ", error);
       });
   }
 
