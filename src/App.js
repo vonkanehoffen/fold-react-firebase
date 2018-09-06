@@ -20,8 +20,10 @@ class App extends Component {
           <Route path="/">
             <AuthObserver>
               <NavBar/>
-              <Route path="/new" component={CreateFold}/>
-              <Route path="/" component={HomeScreen}/>
+              <Switch>
+                <Route path="/new" component={CreateFold}/>
+                <Route path="/" component={HomeScreen}/>
+              </Switch>
             </AuthObserver>
           </Route>
         </Switch>

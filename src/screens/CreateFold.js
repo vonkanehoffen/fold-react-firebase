@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import { withRouter } from 'react-router-dom'
 import firebase from 'firebase'
 import { db } from '../firebase'
 
@@ -21,6 +22,7 @@ class CreateFold extends Component {
 
   save = () => {
     const userId = firebase.auth().currentUser.uid;
+    const { history } = this.props
     db.collection('folds').add({
       ...this.state,
       userId,
@@ -28,6 +30,7 @@ class CreateFold extends Component {
     })
       .then(function(docRef) {
         console.log("Document written with ID: ", docRef.id);
+        history.push('/')
       })
       .catch(function(error) {
         console.error("Error adding document: ", error);
@@ -67,4 +70,4 @@ class CreateFold extends Component {
 }
 
 
-export default CreateFold 
+export default withRouter(CreateFold)
