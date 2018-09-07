@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { db } from '../firebase'
 import FullScreenLoader from '../components/FullScreenLoader'
+import firebase from 'firebase'
 
 class MyFolds extends Component {
 
@@ -10,7 +11,7 @@ class MyFolds extends Component {
   }
 
   componentDidMount() {
-    db.collection('folds').onSnapshot(doc => {
+    db.collection('folds').where('userId', '==', firebase.auth().currentUser.uid).onSnapshot(doc => {
       const folds = doc.docs.map(doc => {
         return {
           id: doc.id,
