@@ -9,7 +9,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 // import TagSuggestion from '../containers/TagSuggestion'
 import TagSelect from '../containers/TagSelect'
 
-class CreateFold extends Component {
+class CreateUpdateFold extends Component {
 
   state = {
     title: '',
@@ -17,6 +17,23 @@ class CreateFold extends Component {
     description: '',
     tagFilter: '',
     tags: [],
+  }
+
+  // If we're editing, we will have an existing ID passed in
+  // ....so read data into state
+  async componentDidMount() {
+    const { id } = this.props.match.params
+    if(id) {
+      try {
+        const fold = await db.collection('folds').doc(id).get()
+        if(fold.exists) {
+          this.setState(fold.data())
+        }
+      } catch(e) {
+        // TODO: Error UI
+        console.error(e)
+      }
+    }
   }
 
   setProperty = e => {
@@ -32,19 +49,34 @@ class CreateFold extends Component {
     const { history } = this.props
     const { title, uri, description, tags } = this.state
 
-    // Write the fold
-    db.collection('folds').add({
-      title, uri, description, tags,
-      userId,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-    })
-      .then(function(docRef) {
-        console.log("Document written with ID: ", docRef.id);
-        history.push('/')
+    // Editing an existing post?
+    const { id } = this.props.match.params
+    if(id) {
+      db.collection('folds').doc(id).update({
+        title, uri, description, tags,
       })
-      .catch(function(error) {
-        console.error("Error adding document: ", error);
-      });
+        .then(function(docRef) {
+          console.log("Document updated: ", docRef);
+          history.push('/')
+        })
+        .catch(function(error) {
+          console.error("Error updating document: ", error);
+        });
+    } else {
+      // Write the fold
+      db.collection('folds').add({
+        title, uri, description, tags,
+        userId,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      })
+        .then(function(docRef) {
+          console.log("Document written with ID: ", docRef.id);
+          history.push('/')
+        })
+        .catch(function(error) {
+          console.error("Error adding document: ", error);
+        });
+    }
 
     // Add / update tags
     if(tags.length) {
@@ -96,4 +128,4 @@ class CreateFold extends Component {
 }
 
 
-export default withRouter(CreateFold)
+export default withRouter(CreateUpdateFold)

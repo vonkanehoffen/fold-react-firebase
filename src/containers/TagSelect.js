@@ -85,12 +85,16 @@ class TagSelect extends React.Component {
   }
 
   componentDidMount() {
-    db.collection('userTags').doc(firebase.auth().currentUser.uid).onSnapshot(doc => {
+    this.unsubscribe = db.collection('userTags').doc(firebase.auth().currentUser.uid).onSnapshot(doc => {
       this.setState({
         loading: false,
         userTags: doc.data() ? doc.data().tags : []
       })
     })
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe()
   }
 
   handleKeyDown = event => {

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import { db } from '../firebase'
 import FullScreenLoader from '../components/FullScreenLoader'
 import firebase from 'firebase'
@@ -26,8 +27,8 @@ class MyFolds extends Component {
     })
   }
 
-  editFold = () => {
-
+  editFold = (id) => {
+    this.props.history.push(`/edit/${id}`)
   }
 
   removeFold = async (id) => {
@@ -53,7 +54,7 @@ class MyFolds extends Component {
           <Fold
             fold={fold}
             key={fold.id}
-            edit={this.editFold}
+            edit={() => this.editFold(fold.id)}
             remove={() => this.removeFold(fold.id)}
           />)}
       </div>
@@ -63,4 +64,4 @@ class MyFolds extends Component {
 }
 
 
-export default MyFolds 
+export default withRouter(MyFolds)
