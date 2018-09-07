@@ -26,6 +26,20 @@ class MyFolds extends Component {
     })
   }
 
+  editFold = () => {
+
+  }
+
+  removeFold = async (id) => {
+    console.log('removing', id)
+    try {
+      await db.collection('folds').doc(id).delete()
+    } catch (e) {
+      // TODO: Error display
+      console.error(e)
+    }
+  }
+
   render() {
     const { loading, folds } = this.state
 
@@ -35,7 +49,13 @@ class MyFolds extends Component {
 
     return (
       <div>
-        {folds.map(fold => <Fold fold={fold} key={fold.id}/>)}
+        {folds.map(fold =>
+          <Fold
+            fold={fold}
+            key={fold.id}
+            edit={this.editFold}
+            remove={() => this.removeFold(fold.id)}
+          />)}
       </div>
     )
   }
