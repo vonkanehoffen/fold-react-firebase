@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { db } from '../firebase'
 import FullScreenLoader from '../components/FullScreenLoader'
 import firebase from 'firebase'
+import Fold from '../components/Fold'
 
 class MyFolds extends Component {
 
@@ -34,7 +35,7 @@ class MyFolds extends Component {
 
     return (
       <div>
-        <pre>{JSON.stringify(folds, null, 2)}</pre>
+        {folds.map(fold => <Fold fold={fold} key={fold.id}/>)}
       </div>
     )
   }

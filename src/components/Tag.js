@@ -3,7 +3,6 @@ import styled from 'styled-components'
 
 
 const Tag = ({ add, remove, children }) => {
-  console.log(add)
   return (
     <Outer onClick={add || remove}>
       <Action>
