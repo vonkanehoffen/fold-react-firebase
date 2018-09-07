@@ -47,16 +47,18 @@ class CreateFold extends Component {
       });
 
     // Add / update tags
-    db.collection('userTags').doc(firebase.auth().currentUser.uid).set({
-      tags: firebase.firestore.FieldValue.arrayUnion(...tags)
-    }, { merge: true })
-      .then(function(docRef) {
-        console.log("Tags written with ID: ", docRef);
-        history.push('/')
-      })
-      .catch(function(error) {
-        console.error("Error adding tags: ", error);
-      });
+    if(tags.length) {
+      db.collection('userTags').doc(firebase.auth().currentUser.uid).set({
+        tags: firebase.firestore.FieldValue.arrayUnion(...tags)
+      }, { merge: true })
+        .then(function(docRef) {
+          console.log("Tags written with ID: ", docRef);
+          history.push('/')
+        })
+        .catch(function(error) {
+          console.error("Error adding tags: ", error);
+        });
+    }
   }
 
   render() {
