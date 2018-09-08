@@ -4,6 +4,7 @@ import { db } from '../firebase'
 import FullScreenLoader from '../components/FullScreenLoader'
 import firebase from 'firebase'
 import Fold from '../components/Fold'
+import ErrorChip from '../components/ErrorChip'
 
 class MyFolds extends Component {
 
@@ -32,7 +33,6 @@ class MyFolds extends Component {
   }
 
   removeFold = async (id) => {
-    console.log('removing', id)
     try {
       await db.collection('folds').doc(id).delete()
     } catch (e) {
@@ -46,7 +46,7 @@ class MyFolds extends Component {
 
     if(loading) return <FullScreenLoader/>
 
-    if(!folds) return <div>Nope</div>
+    if(!folds) return <ErrorChip>No folds found</ErrorChip>
 
     return (
       <div>
