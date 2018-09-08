@@ -43,7 +43,7 @@ class MyFolds extends Component {
 
   render() {
     const { loading, folds } = this.state
-    const { filterTags } = this.props
+    const { filterTags, setFilter } = this.props
 
     if(loading) return <FullScreenLoader/>
 
@@ -66,6 +66,7 @@ class MyFolds extends Component {
             key={fold.id}
             edit={() => this.editFold(fold.id)}
             remove={() => this.removeFold(fold.id)}
+            setFilter={setFilter}
           />)}
       </div>
     )

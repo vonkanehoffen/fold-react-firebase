@@ -5,14 +5,14 @@ import Icon from '@material-ui/core/Icon'
 import { colorFromString } from '../helpers/color'
 import SmallTag from './SmallTag'
 
-const Fold = ({ fold: { title, tags, description }, edit, remove }) => {
+const Fold = ({ fold: { title, tags, description }, edit, remove, setFilter }) => {
   return (
     <Outer style={{background: colorFromString(tags[0])}}>
       <h3>{title}</h3>
       <Description>
         {description}
       </Description>
-      {tags.map(tag => <SmallTag key={tag} text={tag}/>)}
+      {tags.map(tag => <SmallTag key={tag} text={tag} onClick={() => setFilter([tag])}/>)}
       <IconButton onClick={edit}>
         <Icon>edit</Icon>
       </IconButton>

@@ -16,7 +16,7 @@ class HomeScreen extends Component {
       <div>
         <h1>Home Screen</h1>
         <TagSelect selectedTags={this.state.filterTags} setTags={this.setFilter}/>
-        <MyFolds filterTags={this.state.filterTags}/>
+        <MyFolds filterTags={this.state.filterTags} setFilter={this.setFilter}/>
       </div>
     )
   }
