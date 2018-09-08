@@ -43,14 +43,24 @@ class MyFolds extends Component {
 
   render() {
     const { loading, folds } = this.state
+    const { filterTags } = this.props
 
     if(loading) return <FullScreenLoader/>
 
     if(!folds) return <ErrorChip>No folds found</ErrorChip>
-
+    
     return (
       <div>
-        {folds.map(fold =>
+        {folds
+
+          .filter(fold => {
+            if(filterTags.length < 1) return true
+            for(let term of filterTags) {
+              if(fold.tags.includes(term)) return true
+            }
+          })
+
+          .map(fold =>
           <Fold
             fold={fold}
             key={fold.id}
