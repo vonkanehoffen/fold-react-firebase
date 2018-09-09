@@ -5,7 +5,6 @@ import AuthScreen from './screens/AuthScreen'
 import HomeScreen from './screens/HomeScreen'
 import DatabaseTest from './screens/DatabaseTest'
 import CreateUpdateFold from './screens/CreateUpdateFold'
-import NavBar from './containers/NavBar'
 import AuthObserver from './containers/AuthObserver'
 import WelcomeScreen from './screens/WelcomeScreen'
 
@@ -28,7 +27,6 @@ class App extends Component {
           <Route path="/auth" component={AuthScreen}/>
           <Route path="/">
             <AuthObserver>
-              <NavBar/>
               <Switch>
                 <Route path="/welcome" component={WelcomeScreen}/>
                 <Route path="/new" component={CreateUpdateFold}/>
