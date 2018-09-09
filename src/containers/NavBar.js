@@ -62,6 +62,10 @@ const NavBarOuter = styled.div`
   display: flex;
   align-items: center;
   background: ${colors.primary};
+  h1 {
+    margin: 0;
+    flex: 1;
+  }
 `
 
 const HomeLink = styled(Link)`

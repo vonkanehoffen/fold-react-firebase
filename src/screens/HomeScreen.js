@@ -3,6 +3,9 @@ import MyFolds from '../containers/MyFolds'
 import TagSelect from '../containers/TagSelect'
 import NavBar from '../containers/NavBar'
 import NewFAB from '../components/NewFAB'
+import styled from 'styled-components'
+import colors from '../colors'
+import Background from '../components/Background'
 
 class HomeScreen extends Component {
 
@@ -15,17 +18,21 @@ class HomeScreen extends Component {
   render() {
 
     return (
-      <div>
+      <Outer>
+        <Background color="black"/>
         <NavBar>
           <TagSelect selectedTags={this.state.filterTags} setTags={this.setFilter}/>
         </NavBar>
         <NewFAB/>
         <MyFolds filterTags={this.state.filterTags} setFilter={this.setFilter}/>
-      </div>
+      </Outer>
     )
   }
 
 }
 
+const Outer = styled.div`
+  padding-bottom: 2rem;
+`
 
 export default HomeScreen 

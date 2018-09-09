@@ -1,13 +1,17 @@
 import React, { Component } from 'react'
 import keycode from 'keycode'
 import firebase from 'firebase'
-import { withRouter } from 'react-router-dom'
+import { BrowserRouter as Router, withRouter } from 'react-router-dom'
+import styled from 'styled-components'
 import { db } from '../firebase'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
 // import TagSuggestion from '../containers/TagSuggestion'
 import TagSelect from '../containers/TagSelect'
+import colors from '../colors'
+import NavBar from '../containers/NavBar'
+import Background from '../components/Background'
 
 class CreateUpdateFold extends Component {
 
@@ -96,7 +100,10 @@ class CreateUpdateFold extends Component {
   render() {
     return (
       <div>
-        <h3>Create fold:</h3>
+        <Background color={colors.primary}/>
+        <NavBar>
+          <h1>Create New</h1>
+        </NavBar>
         <TextField
           type="text"
           name="title"
@@ -124,7 +131,6 @@ class CreateUpdateFold extends Component {
       </div>
     )
   }
-
 }
 
 
