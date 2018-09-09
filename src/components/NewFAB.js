@@ -2,11 +2,12 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import colors from '../colors'
+import { Add } from 'styled-icons/material'
 
 const NewFAB = (props) => {
   return (
     <FAB to="/new">
-      <i className="material-icons" style={{fontSize: '2em'}}>add</i>
+      <Icon/>
     </FAB>
   )
 }
@@ -22,10 +23,13 @@ const FAB = styled(Link)`
   height: 4rem;
   border-radius: 50%;
   background: ${colors.primary};
+  box-shadow: 0 5px 20px rgba(0,0,0,.5);
 `
 
-// const StyledIcon = styled(Icon)`
-//   font-size: 4em;
-// `
+const Icon = styled(Add)`
+  width: 2rem;
+  margin-top: 1rem;
+  color: black;
+`
 
 export default NewFAB
