@@ -30,14 +30,15 @@ class NavBar extends Component {
           <HomeLink to="/">
             <img src={Logo} alt="Fold" height={60}/>
           </HomeLink>
-
-          {this.props.children}
-
+          <Inner>
+            {this.props.children}
+          </Inner>
           <MenuOuter>
             <IconButton icon="more_vert" onClick={this.toggleMenu}/>
             {this.state.menuOpen &&
             <Menu>
               <p>Hello, {firebase.auth().currentUser.displayName}</p>
+              <Link to="/about">About</Link>
               <Button variant="outlined" onClick={this.signOut}>Sign Out</Button>
               <Button variant="flat" onClick={this.deleteAccount}>Delete account</Button>
             </Menu>
@@ -62,10 +63,6 @@ const NavBarOuter = styled.div`
   display: flex;
   align-items: center;
   background: ${colors.primary};
-  h1 {
-    margin: 0;
-    flex: 1;
-  }
 `
 
 const HomeLink = styled(Link)`
@@ -73,6 +70,10 @@ const HomeLink = styled(Link)`
   img {
     margin: 0;
   }
+`
+
+const Inner = styled.div`
+  flex: 1;
 `
 
 const MenuOuter = styled.div`

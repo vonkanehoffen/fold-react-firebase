@@ -25,7 +25,7 @@ class Fold extends React.Component {
         <Card style={{ background: color }}>
           <Content>
             <Title>
-              <h3>{title}</h3>
+              <h4>{title}</h4>
               <IconButton onClick={this.toggleExpanded}>
                 <Icon>more_vert</Icon>
               </IconButton>
@@ -56,7 +56,7 @@ const Card = styled.div`
 
 const Title = styled.div`
   display: flex;
-  h3 {
+  h4 {
     flex: 1;
     white-space: nowrap;
     overflow: hidden;

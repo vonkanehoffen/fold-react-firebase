@@ -2,8 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import keycode from 'keycode';
 import Downshift from 'downshift';
+import styled from 'styled-components'
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import TextInput from '../components/TextInput'
 import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
 import Tag from '../components/Tag'
@@ -12,23 +14,6 @@ import { db } from '../firebase'
 import firebase from 'firebase'
 
 // See https://material-ui-next.com/demos/autocomplete/
-
-const renderInput = (inputProps) => {
-  const { InputProps, classes, ref, ...other } = inputProps;
-  console.log(inputProps)
-  return (
-    <TextField
-      InputProps={{
-        inputRef: ref,
-        classes: {
-          root: classes.inputRoot,
-        },
-        ...InputProps,
-      }}
-      {...other}
-    />
-  );
-}
 
 const renderSuggestion = ({ suggestion, index, itemProps, highlightedIndex, selectedItem }) => {
   const isHighlighted = highlightedIndex === index;
@@ -158,23 +143,18 @@ class TagSelect extends React.Component {
             selectedItem,
             highlightedIndex,
           }) => (
-          <div className={classes.container}>
-            {renderInput({
-              fullWidth: true,
-              classes,
-              InputProps: getInputProps({
-                startAdornment: selectedTags.map(item => (
-                  <Tag
-                    key={item}
-                    tabIndex={-1}
-                    remove={this.handleDelete(item)}
-                  >{item}</Tag>
-                )),
-                onChange: this.handleInputChange,
-                onKeyDown: this.handleKeyDown,
-                placeholder: 'Select tags',
-              }),
-            })}
+          <div style={{display: 'flex'}}>
+            {selectedTags.map(item => (
+            <Tag
+              key={item}
+              tabIndex={-1}
+              remove={this.handleDelete(item)}
+            >{item}</Tag>
+            ))}
+            <TextInput {...getInputProps({
+              onChange: this.handleInputChange,
+              onKeyDown: this.handleKeyDown,
+            })}/>
             {isOpen ? (
               <Paper className={classes.paper} square>
                 {getSuggestions(inputValue, userTags).map((suggestion, index) =>
@@ -195,6 +175,10 @@ class TagSelect extends React.Component {
   }
 }
 
+const Container = styled.div`
+  display: flex;
+`
+
 TagSelect.propTypes = {
   setTags: PropTypes.func.isRequired,
   selectedTags: PropTypes.array.isRequired,
@@ -202,23 +186,12 @@ TagSelect.propTypes = {
 };
 
 const styles = theme => ({
-  root: {
-    flexGrow: 1,
-    height: 250,
-  },
-  container: {
-    flexGrow: 1,
-    position: 'relative',
-  },
   paper: {
     position: 'absolute',
     zIndex: 1,
     marginTop: theme.spacing.unit,
     left: 0,
     right: 0,
-  },
-  inputRoot: {
-    flexWrap: 'wrap',
   },
 });
 

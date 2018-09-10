@@ -101,9 +101,8 @@ class CreateUpdateFold extends Component {
     return (
       <div>
         <Background color={colors.primary}/>
-        <NavBar>
-          <h1>Create New</h1>
-        </NavBar>
+        <NavBar/>
+        <h1>Create New</h1>
         <TextField
           type="text"
           name="title"

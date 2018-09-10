@@ -4,7 +4,7 @@ import { colorFromString } from '../helpers/color'
 
 const StyledSmallTag = styled.div`
   display: inline-block;
-  font: bold 13px Lato, sans-serif;
+  font: bold .707rem Lato, sans-serif;
   text-transform: capitalize;
   margin: 0 .5rem 5px 0;
   padding: .2rem .5rem;

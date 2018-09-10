@@ -9,7 +9,7 @@ const FullScreenLoader = (props) => {
   return (
     <CenterVH>
       <Background color="black"/>
-      <CircularProgress color={colors.primary}/>
+      <CircularProgress style={{color: colors.primary}}/>
     </CenterVH>
   )
 }
