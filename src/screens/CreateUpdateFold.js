@@ -5,13 +5,15 @@ import { BrowserRouter as Router, withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import { db } from '../firebase'
 import TextField from '@material-ui/core/TextField'
-import Button from '@material-ui/core/Button'
+import TextInput from '../components/TextInput'
+import Button from '../components/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
 // import TagSuggestion from '../containers/TagSuggestion'
 import TagSelect from '../containers/TagSelect'
 import colors from '../colors'
 import NavBar from '../containers/NavBar'
 import Background from '../components/Background'
+import Icon from '../components/Icon'
 
 class CreateUpdateFold extends Component {
 
@@ -102,35 +104,61 @@ class CreateUpdateFold extends Component {
       <div>
         <Background color={colors.primary}/>
         <NavBar/>
-        <h1>Create New</h1>
-        <TextField
-          type="text"
-          name="title"
-          label="Title"
-          value={this.state.title}
-          onChange={this.setProperty}
-        />
-        <TextField
-          type="text"
-          name="uri"
-          label="URI"
-          value={this.state.uri}
-          onChange={this.setProperty}
-        />
-        <TextField
-          type="text"
-          name="description"
-          label="Description"
-          value={this.state.description}
-          onChange={this.setProperty}
-        />
-        <TagSelect selectedTags={this.state.tags} setTags={this.setTags}/>
-        <Button variant="raised" onClick={this.save}>Save</Button>
+        <Spacer>
+          <h1>Create New</h1>
+        </Spacer>
+        <Spacer>
+          <StyledIcon>add_circle_outline</StyledIcon>
+          <TextInput
+            type="text"
+            name="title"
+            placeholder="Title"
+            value={this.state.title}
+            onChange={this.setProperty}
+          />
+        </Spacer>
+        <Spacer>
+          <StyledIcon>link</StyledIcon>
+          <TextInput
+            type="text"
+            name="uri"
+            placeholder="URI"
+            value={this.state.uri}
+            onChange={this.setProperty}
+          />
+        </Spacer>
+        <Spacer>
+          <StyledIcon>format_align_left</StyledIcon>
+          <TextInput
+            type="text"
+            name="description"
+            placeholder="Description"
+            value={this.state.description}
+            onChange={this.setProperty}
+          />
+        </Spacer>
+        <Spacer>
+          <StyledIcon>label_outline</StyledIcon>
+          <TagSelect selectedTags={this.state.tags} setTags={this.setTags}/>
+        </Spacer>
+        <Spacer>
+          <Button onClick={this.save}>Save</Button>
+        </Spacer>
         <pre>{JSON.stringify(this.state, null, 2)}</pre>
       </div>
     )
   }
 }
+
+const Spacer = styled.div`
+  display: flex;
+  padding: 1rem;
+`
+
+const StyledIcon = styled(Icon)`
+  font-size: 2rem;
+  margin-right: 1rem;
+`
 
 
 export default withRouter(CreateUpdateFold)

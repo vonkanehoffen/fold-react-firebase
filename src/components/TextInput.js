@@ -5,11 +5,14 @@ const TextInput = styled.input`
   background: none;
   font-size: 1.414rem;
   border: none;
-  border-bottom: 2px solid rgba(0,0,0,0.3);
+  border-bottom: 2px dotted black;
   outline: none;
   width: 100%;
-  &:focus {    
-    border-bottom-color: black;
+  ::placeholder {
+    color: rgba(0,0,0,0.5);
+  }
+  :focus {    
+    border-bottom-style: solid;
   }
 `
 

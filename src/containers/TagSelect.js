@@ -12,13 +12,20 @@ import Tag from '../components/Tag'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { db } from '../firebase'
 import firebase from 'firebase'
+import colors from '../colors'
 
 // See https://material-ui-next.com/demos/autocomplete/
 
 const renderSuggestion = ({ suggestion, index, itemProps, highlightedIndex, selectedItem }) => {
   const isHighlighted = highlightedIndex === index;
   const isSelected = (selectedItem || '').indexOf(suggestion) > -1;
+console.log('itemprops:', itemProps)
+  return (
+    <SuggestionTag {...itemProps} key={suggestion} isHighlighted={isHighlighted} isSelected={isSelected}>
+      {suggestion}
+    </SuggestionTag>
 
+  )
   return (
     <MenuItem
       {...itemProps}
@@ -143,7 +150,7 @@ class TagSelect extends React.Component {
             selectedItem,
             highlightedIndex,
           }) => (
-          <div style={{display: 'flex'}}>
+          <div style={{display: 'flex', width: '100%', position: 'relative'}}>
             {selectedTags.map(item => (
             <Tag
               key={item}
@@ -156,7 +163,7 @@ class TagSelect extends React.Component {
               onKeyDown: this.handleKeyDown,
             })}/>
             {isOpen ? (
-              <Paper className={classes.paper} square>
+              <Suggestions>
                 {getSuggestions(inputValue, userTags).map((suggestion, index) =>
                   renderSuggestion({
                     suggestion,
@@ -166,7 +173,7 @@ class TagSelect extends React.Component {
                     selectedItem,
                   }),
                 )}
-              </Paper>
+              </Suggestions>
             ) : null}
           </div>
         )}
@@ -177,6 +184,33 @@ class TagSelect extends React.Component {
 
 const Container = styled.div`
   display: flex;
+  position: relative;
+`
+
+const Suggestions = styled.div`
+  background: ${colors.primary};
+  z-index: 2;
+  position: absolute;
+  top: 2rem;
+  box-shadow: 0 5px 20px rgba(0,0,0,.5);
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+`
+
+const SuggestionTag = styled.div`
+  background: none;
+  border-radius: 5px;
+  border: 2px solid black;
+  margin: .5rem .5rem .5rem 0;
+  padding: .5rem 1rem;
+  cursor: pointer;
+  text-transform: capitalize;
+  ${props => props.isHighlighted && `
+    color: ${colors.primary};
+    background: black;
+  `}
+  ${props => props.isSelected && `font-weight:bold;`}
 `
 
 TagSelect.propTypes = {
