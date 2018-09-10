@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
+import styled from 'styled-components'
 import { db } from '../firebase'
 import FullScreenLoader from '../components/FullScreenLoader'
 import firebase from 'firebase'
@@ -50,7 +51,7 @@ class MyFolds extends Component {
     if(!folds) return <ErrorChip>No folds found</ErrorChip>
     
     return (
-      <div>
+      <Outer>
         {folds
 
           .filter(fold => {
@@ -68,11 +69,15 @@ class MyFolds extends Component {
             remove={() => this.removeFold(fold.id)}
             setFilter={setFilter}
           />)}
-      </div>
+      </Outer>
     )
   }
 
 }
 
+const Outer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`
 
 export default withRouter(MyFolds)
