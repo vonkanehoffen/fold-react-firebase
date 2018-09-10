@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
-import Chip from '@material-ui/core/Chip';
+import Tag from '../components/Tag'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { db } from '../firebase'
 import firebase from 'firebase'
@@ -15,6 +15,7 @@ import firebase from 'firebase'
 
 const renderInput = (inputProps) => {
   const { InputProps, classes, ref, ...other } = inputProps;
+  console.log(inputProps)
   return (
     <TextField
       InputProps={{
@@ -163,13 +164,11 @@ class TagSelect extends React.Component {
               classes,
               InputProps: getInputProps({
                 startAdornment: selectedTags.map(item => (
-                  <Chip
+                  <Tag
                     key={item}
                     tabIndex={-1}
-                    label={item}
-                    className={classes.chip}
-                    onDelete={this.handleDelete(item)}
-                  />
+                    remove={this.handleDelete(item)}
+                  >{item}</Tag>
                 )),
                 onChange: this.handleInputChange,
                 onKeyDown: this.handleKeyDown,
@@ -217,10 +216,6 @@ const styles = theme => ({
     marginTop: theme.spacing.unit,
     left: 0,
     right: 0,
-  },
-  chip: {
-    margin: `${theme.spacing.unit / 2}px ${theme.spacing.unit / 4}px`,
-    textTransform: 'capitalize',
   },
   inputRoot: {
     flexWrap: 'wrap',

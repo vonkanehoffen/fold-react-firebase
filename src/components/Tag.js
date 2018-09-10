@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import colors from '../colors'
 
 
 const Tag = ({ add, remove, children }) => {
@@ -17,17 +18,18 @@ const Tag = ({ add, remove, children }) => {
 }
 
 const Outer = styled.div`
-  background: #000000;
-  border-radius: .5rem;
-  color: #fff;
   display: inline-flex;
   align-items: center;
-  margin: 0 .5rem .5rem 0;
+  background: #000000;
+  border-radius: 5px;
+  color: ${colors.primary};
+  margin: .5rem .5rem .5rem 0;
   cursor: pointer;
+  text-transform: capitalize;
 `
 
 const Action = styled.div`
-  padding: .5rem;
+  padding: .25rem;
 `
 
 const Title = styled.div`
