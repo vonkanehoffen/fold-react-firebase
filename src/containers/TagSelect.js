@@ -3,11 +3,7 @@ import PropTypes from 'prop-types';
 import keycode from 'keycode';
 import Downshift from 'downshift';
 import styled from 'styled-components'
-import { withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
 import TextInput from '../components/TextInput'
-import Paper from '@material-ui/core/Paper';
-import MenuItem from '@material-ui/core/MenuItem';
 import Tag from '../components/Tag'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { db } from '../firebase'
@@ -16,30 +12,15 @@ import colors from '../colors'
 
 // See https://material-ui-next.com/demos/autocomplete/
 
-const renderSuggestion = ({ suggestion, index, itemProps, highlightedIndex, selectedItem }) => {
-  const isHighlighted = highlightedIndex === index;
-  const isSelected = (selectedItem || '').indexOf(suggestion) > -1;
-console.log('itemprops:', itemProps)
-  return (
-    <SuggestionTag {...itemProps} key={suggestion} isHighlighted={isHighlighted} isSelected={isSelected}>
-      {suggestion}
-    </SuggestionTag>
+const renderSuggestion = ({ suggestion, index, itemProps, highlightedIndex, selectedItem }) =>
+  <SuggestionTag
+    {...itemProps}
+    key={suggestion}
+    isHighlighted={highlightedIndex === index}
+    isSelected={(selectedItem || '').indexOf(suggestion) > -1}>
+    {suggestion}
+  </SuggestionTag>
 
-  )
-  return (
-    <MenuItem
-      {...itemProps}
-      key={suggestion}
-      selected={isHighlighted}
-      component="div"
-      style={{
-        fontWeight: isSelected ? 500 : 400, textTransform: 'capitalize'
-      }}
-    >
-      {suggestion}
-    </MenuItem>
-  );
-}
 renderSuggestion.propTypes = {
   highlightedIndex: PropTypes.number,
   index: PropTypes.number,
@@ -131,7 +112,7 @@ class TagSelect extends React.Component {
   };
 
   render() {
-    const { classes, selectedTags } = this.props;
+    const { selectedTags } = this.props;
     const { inputValue, loading, userTags } = this.state;
 
     if(loading) return (
@@ -182,11 +163,6 @@ class TagSelect extends React.Component {
   }
 }
 
-const Container = styled.div`
-  display: flex;
-  position: relative;
-`
-
 const Suggestions = styled.div`
   background: ${colors.primary};
   z-index: 2;
@@ -216,17 +192,6 @@ const SuggestionTag = styled.div`
 TagSelect.propTypes = {
   setTags: PropTypes.func.isRequired,
   selectedTags: PropTypes.array.isRequired,
-  classes: PropTypes.object.isRequired,
 };
 
-const styles = theme => ({
-  paper: {
-    position: 'absolute',
-    zIndex: 1,
-    marginTop: theme.spacing.unit,
-    left: 0,
-    right: 0,
-  },
-});
-
-export default withStyles(styles)(TagSelect);
+export default TagSelect
