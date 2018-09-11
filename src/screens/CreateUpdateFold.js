@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import keycode from 'keycode'
 import firebase from 'firebase'
-import { BrowserRouter as Router, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import { db } from '../firebase'
 import TextField from '@material-ui/core/TextField'
@@ -166,7 +166,7 @@ class CreateUpdateFold extends Component {
           :
             <div>
               <Button onClick={this.save}>Save</Button>
-              <Button onClick={() => false} secondary>Cancel</Button>
+              <Button onClick={() => this.props.history.goBack()} secondary>Cancel</Button>
             </div>
           }
         </Spacer>
