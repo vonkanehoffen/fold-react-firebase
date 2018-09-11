@@ -6,6 +6,7 @@ import FullScreenLoader from '../components/FullScreenLoader'
 import firebase from 'firebase'
 import Fold from '../components/Fold'
 import ErrorChip from '../components/ErrorChip'
+import NoFoldsCTA from '../components/NoFoldsCTA'
 
 class MyFolds extends Component {
 
@@ -48,7 +49,7 @@ class MyFolds extends Component {
 
     if(loading) return <FullScreenLoader/>
 
-    if(!folds) return <ErrorChip>No folds found</ErrorChip>
+    if(!folds || !folds.length) return <NoFoldsCTA/>
     
     return (
       <Outer>

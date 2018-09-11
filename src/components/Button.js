@@ -6,14 +6,16 @@ const Button = styled.div`
   display: inline-block;
   padding: 1rem 2rem;
   margin-right: 1rem;
-  border: 2px solid #000;
+  border: 2px solid ${props => props.color || 'black'};
+  ${props => props.filled && `background: ${props.color};`}
+  color: ${props => props.filled && 'black' || props.color || 'black'};
   font-size: 1.414rem;
   border-radius: 5px;
   cursor: pointer;
   ${props => props.secondary && `opacity: 0.4`}
   :hover {
-    background: black;
-    color: ${colors.primary}
+    background: ${props => props.filled && 'black' || props.color || 'black'};
+    color: ${props => props.filled ? props.color : (props.color ? 'black' : colors.primary)}
   }
 `
 

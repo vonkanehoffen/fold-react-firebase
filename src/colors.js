@@ -1,5 +1,7 @@
 const colors = {
   primary: '#ffd400',
+  secondary: '#a800ff',
+  tertiary: '#00ffa2',
   cardBg1: '#42b2c6',
   cardBg2: '#a842c6',
   cardBg3: '#4255c6',
