@@ -124,20 +124,20 @@ class TagSelect extends React.Component {
     return (
       <Downshift inputValue={inputValue} onChange={this.handleChange} selectedItem={selectedTags}>
         {({
-            getInputProps,
-            getItemProps,
-            isOpen,
-            inputValue,
-            selectedItem,
-            highlightedIndex,
-          }) => (
+          getInputProps,
+          getItemProps,
+          isOpen,
+          inputValue,
+          selectedItem,
+          highlightedIndex,
+        }) => (
           <div style={{display: 'flex', width: '100%', position: 'relative'}}>
             {selectedTags.map(item => (
-            <Tag
-              key={item}
-              tabIndex={-1}
-              remove={this.handleDelete(item)}
-            >{item}</Tag>
+              <Tag
+                key={item}
+                tabIndex={-1}
+                remove={this.handleDelete(item)}
+              >{item}</Tag>
             ))}
             <TextInput {...getInputProps({
               onChange: this.handleInputChange,
@@ -171,14 +171,10 @@ const Suggestions = styled.div`
   box-shadow: 0 5px 20px rgba(0,0,0,.5);
   display: flex;
   flex-direction: column;
-  padding: 1rem;
 `
 
 const SuggestionTag = styled.div`
   background: none;
-  border-radius: 5px;
-  border: 2px solid black;
-  margin: .5rem .5rem .5rem 0;
   padding: .5rem 1rem;
   cursor: pointer;
   text-transform: capitalize;

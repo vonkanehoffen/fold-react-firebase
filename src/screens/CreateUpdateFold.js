@@ -143,8 +143,8 @@ class CreateUpdateFold extends Component {
         </Spacer>
         <Spacer>
           <Button onClick={this.save}>Save</Button>
+          <Button onClick={() => false} secondary>Cancel</Button>
         </Spacer>
-        <pre>{JSON.stringify(this.state, null, 2)}</pre>
       </div>
     )
   }
