@@ -1,10 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import IconButton from '@material-ui/core/IconButton'
-import Icon from '@material-ui/core/Icon'
+import IconButton from '../components/IconButton'
+import Icon from '../components/Icon'
 import { colorFromString } from '../helpers/color'
 import SmallTag from './SmallTag'
-import { Edit, Delete, MoreVert } from 'styled-icons/material'
 import SmallButton from './SmallButton'
 
 class Fold extends React.Component {
@@ -26,9 +25,7 @@ class Fold extends React.Component {
           <Content>
             <Title>
               <h4><a href={uri} target="new">{title}<Icon>link</Icon></a></h4>
-              <IconButton onClick={this.toggleExpanded}>
-                <Icon>more_vert</Icon>
-              </IconButton>
+              <IconButton onClick={this.toggleExpanded} icon="more_vert"/>
             </Title>
             <Description>
               {description}
