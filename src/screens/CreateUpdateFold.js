@@ -57,10 +57,18 @@ class CreateUpdateFold extends Component {
   save = () => {
     const userId = firebase.auth().currentUser.uid;
     const { history } = this.props
-    const { title, uri, description, tags } = this.state
+    let { title, uri, description, tags } = this.state
 
     if(!title) return this.setError('You must enter a title')
 
+    if(!(
+      uri.startsWith('//') ||
+      uri.startsWith('http://') ||
+      uri.startsWith('https://')
+    )) {
+      uri = `//${uri}`
+      this.setState({ uri })
+    }
     // Editing an existing post?
     const { id } = this.props.match.params
     if(id) {
