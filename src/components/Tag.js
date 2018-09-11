@@ -24,7 +24,7 @@ const Outer = styled.div`
   border-radius: 5px;
   border: 2px solid black;
   color: ${colors.primary};
-  margin: .5rem .5rem .5rem 0;
+  margin-right: .5rem;
   cursor: pointer;
   text-transform: capitalize;
   ${props => props.outline && `

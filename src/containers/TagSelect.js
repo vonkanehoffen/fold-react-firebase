@@ -81,7 +81,7 @@ class TagSelect extends React.Component {
     }
 
     // If space is pressed, add whatever we have as a new tag
-    if(keycode(event) === 'space' && inputValue.trim().length > 0) {
+    if((keycode(event) === 'space' || keycode(event) === 'tab') && inputValue.trim().length > 0) {
       setTags([...selectedTags, inputValue.trim().toLowerCase()])
       this.setState({inputValue: ''})
       event.preventDefault()
@@ -131,7 +131,7 @@ class TagSelect extends React.Component {
           selectedItem,
           highlightedIndex,
         }) => (
-          <div style={{display: 'flex', width: '100%', position: 'relative'}}>
+          <div style={{display: 'flex', width: '100%', position: 'relative', alignItems: 'center'}}>
             {selectedTags.map(item => (
               <Tag
                 key={item}
@@ -139,23 +139,25 @@ class TagSelect extends React.Component {
                 remove={this.handleDelete(item)}
               >{item}</Tag>
             ))}
-            <TextInput {...getInputProps({
-              onChange: this.handleInputChange,
-              onKeyDown: this.handleKeyDown,
-            })}/>
-            {isOpen ? (
-              <Suggestions>
-                {getSuggestions(inputValue, userTags).map((suggestion, index) =>
-                  renderSuggestion({
-                    suggestion,
-                    index,
-                    itemProps: getItemProps({ item: suggestion }),
-                    highlightedIndex,
-                    selectedItem,
-                  }),
-                )}
-              </Suggestions>
-            ) : null}
+            <div style={{flex: 1}}>
+              <TextInput {...getInputProps({
+                onChange: this.handleInputChange,
+                onKeyDown: this.handleKeyDown,
+              })}/>
+              {isOpen ? (
+                <Suggestions>
+                  {getSuggestions(inputValue, userTags).map((suggestion, index) =>
+                    renderSuggestion({
+                      suggestion,
+                      index,
+                      itemProps: getItemProps({ item: suggestion }),
+                      highlightedIndex,
+                      selectedItem,
+                    }),
+                  )}
+                </Suggestions>
+              ) : null}
+            </div>
           </div>
         )}
       </Downshift>
