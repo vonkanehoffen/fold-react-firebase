@@ -17,7 +17,7 @@ class Fold extends React.Component {
 
   render() {
 
-    const { fold: { title, tags, description }, edit, remove, setFilter } = this.props
+    const { fold: { title, uri, tags, description }, edit, remove, setFilter } = this.props
     const color = colorFromString(tags[0])
 
     return (
@@ -25,7 +25,7 @@ class Fold extends React.Component {
         <Card style={{ background: color }}>
           <Content>
             <Title>
-              <h4>{title}</h4>
+              <h4><a href={uri} target="new">{title}<Icon>link</Icon></a></h4>
               <IconButton onClick={this.toggleExpanded}>
                 <Icon>more_vert</Icon>
               </IconButton>
@@ -61,6 +61,14 @@ const Title = styled.div`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+  .material-icons {
+    margin-left: .5rem;
+    vertical-align: middle;
   }
 `
 
