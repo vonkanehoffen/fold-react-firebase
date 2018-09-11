@@ -14,6 +14,7 @@ import colors from '../colors'
 import NavBar from '../containers/NavBar'
 import Background from '../components/Background'
 import Icon from '../components/Icon'
+import ErrorChip from '../components/ErrorChip'
 
 class CreateUpdateFold extends Component {
 
@@ -23,6 +24,7 @@ class CreateUpdateFold extends Component {
     description: '',
     tagFilter: '',
     tags: [],
+    error: false,
   }
 
   // If we're editing, we will have an existing ID passed in
@@ -50,10 +52,14 @@ class CreateUpdateFold extends Component {
 
   setTags = tags => this.setState({ tags })
 
+  setError = error => this.setState({ error })
+
   save = () => {
     const userId = firebase.auth().currentUser.uid;
     const { history } = this.props
     const { title, uri, description, tags } = this.state
+
+    if(!title) return this.setError('You must enter a title')
 
     // Editing an existing post?
     const { id } = this.props.match.params
@@ -145,6 +151,7 @@ class CreateUpdateFold extends Component {
           <Button onClick={this.save}>Save</Button>
           <Button onClick={() => false} secondary>Cancel</Button>
         </Spacer>
+        {this.state.error && <ErrorChip>{this.state.error}</ErrorChip>}
       </div>
     )
   }
