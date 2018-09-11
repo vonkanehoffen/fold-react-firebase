@@ -14,6 +14,9 @@ const TextInput = styled.input`
   :focus {    
     border-bottom-style: solid;
   }
+  :disabled {
+    border-bottom-color: rgba(0,0,0,0.3);
+  }
 `
 
 export default TextInput

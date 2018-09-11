@@ -25,6 +25,7 @@ class CreateUpdateFold extends Component {
     tagFilter: '',
     tags: [],
     error: false,
+    loading: false,
   }
 
   // If we're editing, we will have an existing ID passed in
@@ -32,15 +33,16 @@ class CreateUpdateFold extends Component {
   async componentDidMount() {
     const { id } = this.props.match.params
     if(id) {
+      this.setLoading(true)
       try {
         const fold = await db.collection('folds').doc(id).get()
         if(fold.exists) {
           this.setState(fold.data())
         }
       } catch(e) {
-        // TODO: Error UI
-        console.error(e)
+        this.setError(e.message)
       }
+      this.setLoading(false)
     }
   }
 
@@ -51,10 +53,10 @@ class CreateUpdateFold extends Component {
   }
 
   setTags = tags => this.setState({ tags })
-
+  setLoading = loading => this.setState({ loading })
   setError = error => this.setState({ error })
 
-  save = () => {
+  save = async () => {
     const userId = firebase.auth().currentUser.uid;
     const { history } = this.props
     let { title, uri, description, tags } = this.state
@@ -69,51 +71,51 @@ class CreateUpdateFold extends Component {
       uri = `//${uri}`
       this.setState({ uri })
     }
-    // Editing an existing post?
+
     const { id } = this.props.match.params
-    if(id) {
-      db.collection('folds').doc(id).update({
-        title, uri, description, tags,
-      })
-        .then(function(docRef) {
-          console.log("Document updated: ", docRef);
-          history.push('/')
+
+    this.setLoading(true)
+    this.setError(false)
+    let error
+
+    try {
+      const docRef = id ?
+        // Update
+        await db.collection('folds').doc(id).update({
+          title, uri, description, tags,
+        }) :
+        // Create
+        await db.collection('folds').add({
+          title, uri, description, tags,
+          userId,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         })
-        .catch(function(error) {
-          console.error("Error updating document: ", error);
-        });
-    } else {
-      // Write the fold
-      db.collection('folds').add({
-        title, uri, description, tags,
-        userId,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      })
-        .then(function(docRef) {
-          console.log("Document written with ID: ", docRef.id);
-          history.push('/')
-        })
-        .catch(function(error) {
-          console.error("Error adding document: ", error);
-        });
+    } catch(e) {
+      error = e.message
     }
 
-    // Add / update tags
     if(tags.length) {
-      db.collection('userTags').doc(firebase.auth().currentUser.uid).set({
-        tags: firebase.firestore.FieldValue.arrayUnion(...tags)
-      }, { merge: true })
-        .then(function(docRef) {
-          console.log("Tags written with ID: ", docRef);
-          history.push('/')
-        })
-        .catch(function(error) {
-          console.error("Error adding tags: ", error);
-        });
+      try {
+        await db.collection('userTags').doc(firebase.auth().currentUser.uid).set({
+          tags: firebase.firestore.FieldValue.arrayUnion(...tags)
+        }, { merge: true })
+      } catch (e) {
+        error = e.message // TODO: Duplicate... would overwrite first error...
+      }
     }
+
+    this.setLoading(false)
+    if(error) {
+      this.setError(error)
+    } else {
+      history.push('/')
+    }
+
   }
 
   render() {
+
+    const { title, uri, description, tags, loading, error } = this.state
     return (
       <div>
         <Background color={colors.primary}/>
@@ -127,8 +129,9 @@ class CreateUpdateFold extends Component {
             type="text"
             name="title"
             placeholder="Title"
-            value={this.state.title}
+            value={title}
             onChange={this.setProperty}
+            disabled={loading}
           />
         </Spacer>
         <Spacer>
@@ -137,8 +140,9 @@ class CreateUpdateFold extends Component {
             type="text"
             name="uri"
             placeholder="URI"
-            value={this.state.uri}
+            value={uri}
             onChange={this.setProperty}
+            disabled={loading}
           />
         </Spacer>
         <Spacer>
@@ -147,19 +151,26 @@ class CreateUpdateFold extends Component {
             type="text"
             name="description"
             placeholder="Description"
-            value={this.state.description}
+            value={description}
             onChange={this.setProperty}
+            disabled={loading}
           />
         </Spacer>
         <Spacer>
           <StyledIcon>label_outline</StyledIcon>
-          <TagSelect selectedTags={this.state.tags} setTags={this.setTags}/>
+          <TagSelect selectedTags={tags} setTags={this.setTags}/>
         </Spacer>
         <Spacer>
-          <Button onClick={this.save}>Save</Button>
-          <Button onClick={() => false} secondary>Cancel</Button>
+          {loading ?
+            <CircularProgress/>
+          :
+            <div>
+              <Button onClick={this.save}>Save</Button>
+              <Button onClick={() => false} secondary>Cancel</Button>
+            </div>
+          }
         </Spacer>
-        {this.state.error && <ErrorChip>{this.state.error}</ErrorChip>}
+        {error && <ErrorChip>{error}</ErrorChip>}
       </div>
     )
   }
