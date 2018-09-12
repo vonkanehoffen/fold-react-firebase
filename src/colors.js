@@ -8,7 +8,7 @@ const colors = {
   validationBlue: '#1971ca',
   validationGreen: '#4caf50',
   validationRed: '#ee0000',
-
+  googleBlue: '#4285F4'
 }
 
 export default colors

@@ -10,8 +10,8 @@ const NoFoldsCTA = (props) => {
     <Outer>
       <Inner>
         <h2>No links :-(</h2>
-        <Link to="/new"><Button color={colors.secondary} filled>Create a link</Button></Link>
-        <Button color={colors.tertiary}>Get the browser extension</Button>
+        <Link to="/new"><Button mainColor={colors.secondary} filled>Create a link</Button></Link>
+        <Button mainColor={colors.tertiary}>Get the browser extension</Button>
       </Inner>
     </Outer>
   )

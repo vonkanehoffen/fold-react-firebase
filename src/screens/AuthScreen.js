@@ -1,42 +1,37 @@
 import React from 'react';
 import styled from 'styled-components'
-import { Redirect } from 'react-router-dom'
-import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import { Link, Redirect } from 'react-router-dom'
 import firebase from 'firebase';
 import CenterVH from '../components/CenterVH'
 import Background from '../components/Background'
 import { db } from '../firebase'
 import colors from '../colors'
 import foldLogo from '../images/foldLogo@2x.png'
-
-// See https://github.com/firebase/firebaseui-web#firebaseui-for-web--auth
+import Button from '../components/Button'
+import ErrorChip from '../components/ErrorChip'
 
 class AuthScreen extends React.Component {
 
-  // The component's Local state.
   state = {
     isSignedIn: false, // Local signed-in state.
     isNewUser: false,
+    error: false,
   };
 
-  // Configure FirebaseUI.
-  uiConfig = {
-    // Popup signin flow rather than redirect flow.
-    signInFlow: 'popup',
-    // We will display Google and Facebook as auth providers.
-    signInOptions: [
-      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-      firebase.auth.GithubAuthProvider.PROVIDER_ID,
-      firebase.auth.EmailAuthProvider.PROVIDER_ID,
-    ],
-    callbacks: {
-      // Avoid redirects after sign-in.
-      signInSuccessWithAuthResult: (res) => {
-        console.log('signInSuccessWithAuthResult:', res.additionalUserInfo)
-        this.setState({ isNewUser: res.additionalUserInfo.isNewUser })
-      }
+  setError = (error) => this.setState({ error })
+  googleProvider = new firebase.auth.GoogleAuthProvider()
+  githubProvider = new firebase.auth.GithubAuthProvider()
+
+  doSignIn = async (provider) => {
+    try {
+      const result = await firebase.auth().signInWithPopup(provider)
+      const token = result.credential.accessToken
+      const user = result.user
+    } catch (e) {
+      console.error(e)
+      this.setError(e.message)
     }
-  };
+  }
 
   // Listen to the Firebase Auth state and set the local state.
   componentDidMount() {
@@ -51,14 +46,21 @@ class AuthScreen extends React.Component {
   }
 
   render() {
-    if (!this.state.isSignedIn) {
+    const { isSignedIn, error } = this.state
+
+    if (!isSignedIn) {
       return (
         <CenterVH>
           <Background color="black"/>
-          <Logo src={foldLogo}/>
           <Inner>
-            <h3>Sign In</h3>
-            <StyledFirebaseAuth uiConfig={this.uiConfig} firebaseAuth={firebase.auth()}/>
+            <Logo src={foldLogo}/>
+            <h1>Bookmarking <span>Reimagined.</span></h1>
+            <SpacedButton onClick={() => this.doSignIn(this.googleProvider)} mainColor={colors.googleBlue} fgColor="white" filled>Sign in with Google</SpacedButton>
+            <SpacedButton onClick={() => this.doSignIn(this.githubProvider)} mainColor="#fff" filled>Sign in with Github</SpacedButton>
+            <Link to="/auth/email">
+              <SpacedButton mainColor={colors.primary} filled>Sign in with Email</SpacedButton>
+            </Link>
+            {error && <ErrorChip>{error}</ErrorChip>}
           </Inner>
         </CenterVH>
       );
@@ -74,14 +76,24 @@ class AuthScreen extends React.Component {
 }
 
 const Logo = styled.img`
-  position: fixed;
-  width: 100px;
-  top: 1rem;
-  left: 1rem;
+  width: 10rem;
+  margin-bottom: 1rem;
 `
 const Inner = styled.div`
   color: ${colors.primary};
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  h1 {
+    color: ${colors.secondary};
+    margin-bottom: 1rem;
+    span { color: ${colors.tertiary}; }
+  }
+`
+
+const SpacedButton = styled(Button)`
+  margin: .5rem;
 `
 
 export default AuthScreen

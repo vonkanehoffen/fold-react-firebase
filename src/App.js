@@ -4,6 +4,7 @@ import Typography from 'typography'
 import 'normalize.css'
 import './App.css'
 import AuthScreen from './screens/AuthScreen'
+import AuthEmailScreen from './screens/AuthEmailScreen'
 import HomeScreen from './screens/HomeScreen'
 import DatabaseTest from './screens/DatabaseTest'
 import CreateUpdateFold from './screens/CreateUpdateFold'
@@ -27,6 +28,7 @@ class App extends Component {
     return (
       <Router>
         <Switch>
+          <Route path="/auth/email" component={AuthEmailScreen}/>
           <Route path="/auth" component={AuthScreen}/>
           <Route path="/about" component={AboutScreen}/>
           <Route path="/">
