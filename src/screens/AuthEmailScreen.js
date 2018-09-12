@@ -12,6 +12,8 @@ import ErrorChip from '../components/ErrorChip'
 import TextInput from '../components/TextInput'
 import FullScreenLoader from '../components/FullScreenLoader'
 import Icon from '../components/Icon'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import InfoChip from '../components/InfoChip'
 
 const STEP_EMAIL= 'STEP_EMAIL'
 const STEP_PASSWORD= 'STEP_PASSWORD'
@@ -26,6 +28,8 @@ class AuthScreen extends React.Component {
     password: '',
     error: false,
     loading: false,
+    passwordResetLoading: false,
+    passwordResetSent: false,
     step: STEP_EMAIL,
   };
 
@@ -83,8 +87,14 @@ class AuthScreen extends React.Component {
 
   // Send password reset email
   forgotPassword = async () => {
-    // TODO: auth.sendPasswordResetEmail ....then what? Landing?
-    // https://firebase.google.com/docs/auth/web/manage-users#send_a_password_reset_email
+    this.setState({ passwordResetLoading: true })
+    try {
+      await firebase.auth().sendPasswordResetEmail(this.state.email)
+      this.setState({ passwordResetSent: true })
+    } catch (e) {
+      this.setError(e)
+    }
+    this.setState({ passwordResetLoading: false })
   }
 
   // Listen to the Firebase Auth state and set the local state.
@@ -140,7 +150,17 @@ class AuthScreen extends React.Component {
             <h2>Enter your password</h2>
             <h4>{email} <Icon>check_circle</Icon></h4>
             <SpacedTextInput type="password" placeholder="Password" value={password} name="password" onChange={this.setProperty} light/>
-            <Forgot onClick={this.forgotPassword}>Forgotten your password?</Forgot>
+            {this.state.passwordResetLoading ?
+              <CircularProgress style={{color: colors.tertiary}}/>
+              :
+              <div>
+                { this.state.passwordResetSent ?
+                  <InfoChip icon="check_circle">Password reset email sent.</InfoChip>
+                  :
+                  <Forgot onClick={this.forgotPassword}>Forgotten your password?</Forgot>
+                }
+              </div>
+            }
             <div>
               <SpacedButton onClick={() => this.setStep(STEP_EMAIL)} mainColor={colors.primary} secondary>Cancel</SpacedButton>
               <SpacedButton onClick={this.signIn} mainColor={colors.primary}>Sign In</SpacedButton>
@@ -179,7 +199,7 @@ const Inner = styled.div`
   h2 {
     margin-bottom: 2rem;
   }
-  .material-icons {
+  h4 .material-icons {
     vertical-align: middle;
     color: ${colors.tertiary};
   }
