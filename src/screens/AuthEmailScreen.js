@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components'
 import { Link, Redirect } from 'react-router-dom'
 import firebase from 'firebase';
+import keycode from 'keycode'
 import CenterVH from '../components/CenterVH'
 import Background from '../components/Background'
-import { db } from '../firebase'
 import colors from '../colors'
 import foldLogo from '../images/foldLogo@2x.png'
 import Button from '../components/Button'
@@ -51,8 +51,10 @@ class AuthScreen extends React.Component {
       console.log('methods...', methods)
       if(methods.length < 1) {
         this.setStep(STEP_SIGNUP)
+        this.signUpPasswordInput.focus()
       } else if(methods[0] === 'password') {
         this.setStep(STEP_PASSWORD)
+        this.passwordInput.focus()
       } else {
         // TODO: It's an existed oAuth one probably. Deal with it...
       }
@@ -120,10 +122,19 @@ class AuthScreen extends React.Component {
         <CenterVH>
           <Background color="black"/>
           <Logo src={foldLogo}/>
+
           {step === STEP_EMAIL &&
             <Inner>
               <h2>Sign in with Email</h2>
-              <SpacedTextInput type="email" placeholder="Email" value={email} name="email" onChange={this.setProperty} light/>
+              <SpacedTextInput
+                type="email"
+                placeholder="Email"
+                value={email}
+                name="email"
+                onChange={this.setProperty}
+                onKeyDown={(e) => keycode(e) === 'enter' && this.checkEmail()}
+                light
+              />
               <div>
                 <Link to="/auth">
                   <SpacedButton mainColor={colors.primary} secondary>Cancel</SpacedButton>
@@ -133,11 +144,20 @@ class AuthScreen extends React.Component {
               {error && <ErrorChip>{error}</ErrorChip>}
             </Inner>
           }
+
           {step === STEP_SIGNUP &&
             <Inner>
               <h2>Create an account</h2>
               <h4>{email} <Icon>check_circle</Icon></h4>
-              <SpacedTextInput type="password" placeholder="Password" value={password} name="password" onChange={this.setProperty} light/>
+              <SpacedTextInput
+                type="password"
+                placeholder="Password"
+                value={password}
+                name="password"
+                ref={i => this.signUpPasswordInput = i}
+                onChange={this.setProperty}
+                onKeyDown={(e) => keycode(e) === 'enter' && this.createUser()}
+                light/>
               <div>
                 <SpacedButton onClick={() => this.setStep(STEP_EMAIL)} mainColor={colors.primary} secondary>Cancel</SpacedButton>
                 <SpacedButton onClick={this.createUser} mainColor={colors.primary}>Next</SpacedButton>
@@ -145,11 +165,20 @@ class AuthScreen extends React.Component {
               {error && <ErrorChip>{error}</ErrorChip>}
             </Inner>
           }
+
           {step === STEP_PASSWORD &&
           <Inner>
             <h2>Enter your password</h2>
             <h4>{email} <Icon>check_circle</Icon></h4>
-            <SpacedTextInput type="password" placeholder="Password" value={password} name="password" onChange={this.setProperty} light/>
+            <SpacedTextInput
+              type="password"
+              placeholder="Password"
+              value={password}
+              name="password"
+              ref={i => this.passwordInput = i}
+              onChange={this.setProperty}
+              onKeyDown={(e) => keycode(e) === 'enter' && this.signIn()}
+              light/>
             {this.state.passwordResetLoading ?
               <CircularProgress style={{color: colors.tertiary}}/>
               :
@@ -161,11 +190,14 @@ class AuthScreen extends React.Component {
                 }
               </div>
             }
+
             <div>
               <SpacedButton onClick={() => this.setStep(STEP_EMAIL)} mainColor={colors.primary} secondary>Cancel</SpacedButton>
               <SpacedButton onClick={this.signIn} mainColor={colors.primary}>Sign In</SpacedButton>
             </div>
+
             {error && <ErrorChip>{error}</ErrorChip>}
+
           </Inner>
           }
 
