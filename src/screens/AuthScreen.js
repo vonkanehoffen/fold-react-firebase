@@ -7,8 +7,8 @@ import Background from '../components/Background'
 import { db } from '../firebase'
 import colors from '../colors'
 import foldLogo from '../images/foldLogo@2x.png'
-import Button from '../components/Button'
 import ErrorChip from '../components/ErrorChip'
+import { EmailButton, GithubButton, GoogleButton } from '../components/SignInButtons'
 
 class AuthScreen extends React.Component {
 
@@ -55,10 +55,10 @@ class AuthScreen extends React.Component {
           <Inner>
             <Logo src={foldLogo}/>
             <h1>Bookmarking <span>Reimagined.</span></h1>
-            <SpacedButton onClick={() => this.doSignIn(this.googleProvider)} mainColor={colors.googleBlue} fgColor="white" filled>Sign in with Google</SpacedButton>
-            <SpacedButton onClick={() => this.doSignIn(this.githubProvider)} mainColor="#fff" filled>Sign in with Github</SpacedButton>
+            <GoogleButton onClick={() => this.doSignIn(this.googleProvider)}/>
+            <GithubButton onClick={() => this.doSignIn(this.githubProvider)}/>
             <Link to="/auth/email">
-              <SpacedButton mainColor={colors.primary} filled>Sign in with Email</SpacedButton>
+              <EmailButton/>
             </Link>
             {error && <ErrorChip>{error}</ErrorChip>}
           </Inner>
@@ -90,10 +90,6 @@ const Inner = styled.div`
     margin-bottom: 1rem;
     span { color: ${colors.tertiary}; }
   }
-`
-
-const SpacedButton = styled(Button)`
-  margin: .5rem;
 `
 
 export default AuthScreen
