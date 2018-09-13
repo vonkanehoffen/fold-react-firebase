@@ -26,6 +26,7 @@ class AuthScreen extends React.Component {
     isNewUser: false,
     email: '',
     password: '',
+    displayName: '',
     error: false,
     loading: false,
     passwordResetLoading: false,
@@ -51,7 +52,7 @@ class AuthScreen extends React.Component {
       console.log('methods...', methods)
       if(methods.length < 1) {
         this.setStep(STEP_SIGNUP)
-        this.signUpPasswordInput.focus()
+        this.displayNameInput.focus()
       } else if(methods[0] === 'password') {
         this.setStep(STEP_PASSWORD)
         this.passwordInput.focus()
@@ -68,7 +69,11 @@ class AuthScreen extends React.Component {
     this.setLoading(true)
     try {
       const user = await firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
-      console.log('user...', user)
+
+      await firebase.auth().currentUser.updateProfile({
+        displayName: this.state.displayName,
+      })
+
       this.setLoading(false)
     } catch (e) {
       this.setError(e)
@@ -112,7 +117,7 @@ class AuthScreen extends React.Component {
   }
 
   render() {
-    const { isSignedIn, error, email, password, loading, step } = this.state
+    const { isSignedIn, error, email, password, displayName, loading, step } = this.state
 
     if(!isSignedIn && loading) return (
       <FullScreenLoader/>
@@ -148,7 +153,17 @@ class AuthScreen extends React.Component {
           {step === STEP_SIGNUP &&
             <Inner>
               <h2>Create an account</h2>
-              <h4>{email} <Icon>check_circle</Icon></h4>
+              <EmailDisplay>{email} <Icon>check_circle</Icon></EmailDisplay>
+              <SpacedTextInput
+                type="text"
+                placeholder="Display name"
+                value={displayName}
+                name="displayName"
+                ref={i => this.displayNameInput = i}
+                onChange={this.setProperty}
+                onKeyDown={(e) => keycode(e) === 'enter' && this.signUpPasswordInput.focus()}
+                light
+              />
               <SpacedTextInput
                 type="password"
                 placeholder="Password"
@@ -221,6 +236,7 @@ const Logo = styled.img`
   top: 1rem;
   left: 1rem;
 `
+
 const Inner = styled.div`
   color: ${colors.primary};
   //text-align: center;
@@ -231,7 +247,11 @@ const Inner = styled.div`
   h2 {
     margin-bottom: 2rem;
   }
-  h4 .material-icons {
+`
+
+const EmailDisplay = styled.h4`
+  margin-bottom: 1rem;
+  .material-icons {
     vertical-align: middle;
     color: ${colors.tertiary};
   }
