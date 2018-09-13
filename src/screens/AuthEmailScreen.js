@@ -18,6 +18,7 @@ import InfoChip from '../components/InfoChip'
 const STEP_EMAIL= 'STEP_EMAIL'
 const STEP_PASSWORD= 'STEP_PASSWORD'
 const STEP_SIGNUP = 'STEP_SIGNUP'
+const STEP_EXISTING= 'STEP_EXISTING'
 
 class AuthScreen extends React.Component {
 
@@ -32,6 +33,7 @@ class AuthScreen extends React.Component {
     passwordResetLoading: false,
     passwordResetSent: false,
     step: STEP_EMAIL,
+    existingProvider: false,
   };
 
   setProperty = e => this.setState({ [e.target.name]: e.target.value })
@@ -41,8 +43,6 @@ class AuthScreen extends React.Component {
     this.setState({ error: error.message, loading: false })
   }
   setStep = (step) => this.setState({ step, loading: false, error: false })
-
-  emailProvider = new firebase.auth.EmailAuthProvider()
 
   // Check if a user exists
   checkEmail = async () => {
@@ -57,7 +57,8 @@ class AuthScreen extends React.Component {
         this.setStep(STEP_PASSWORD)
         this.passwordInput.focus()
       } else {
-        // TODO: It's an existed oAuth one probably. Deal with it...
+        this.setState({ existingProvider: methods[0]})
+        this.setStep(STEP_EXISTING)
       }
     } catch (e) {
       this.setError(e)
@@ -117,7 +118,7 @@ class AuthScreen extends React.Component {
   }
 
   render() {
-    const { isSignedIn, error, email, password, displayName, loading, step } = this.state
+    const { isSignedIn, error, email, password, displayName, loading, step, existingProvider } = this.state
 
     if(!isSignedIn && loading) return (
       <FullScreenLoader/>
@@ -126,7 +127,9 @@ class AuthScreen extends React.Component {
       return (
         <CenterVH>
           <Background color="black"/>
-          <Logo src={foldLogo}/>
+          <Link to="/auth">
+            <Logo src={foldLogo}/>
+          </Link>
 
           {step === STEP_EMAIL &&
             <Inner>
@@ -184,7 +187,7 @@ class AuthScreen extends React.Component {
           {step === STEP_PASSWORD &&
           <Inner>
             <h2>Enter your password</h2>
-            <h4>{email} <Icon>check_circle</Icon></h4>
+            <EmailDisplay>{email} <Icon>check_circle</Icon></EmailDisplay>
             <SpacedTextInput
               type="password"
               placeholder="Password"
@@ -213,6 +216,13 @@ class AuthScreen extends React.Component {
 
             {error && <ErrorChip>{error}</ErrorChip>}
 
+          </Inner>
+          }
+
+          {step === STEP_EXISTING &&
+          <Inner>
+            <h2>You already have an account.</h2>
+            <EmailDisplay>Registered via {existingProvider}. <Link to="/auth">Go back and sign in.</Link></EmailDisplay>
           </Inner>
           }
 
@@ -254,6 +264,9 @@ const EmailDisplay = styled.h4`
   .material-icons {
     vertical-align: middle;
     color: ${colors.tertiary};
+  }
+  a {
+    color: ${colors.secondary};
   }
 `
 
