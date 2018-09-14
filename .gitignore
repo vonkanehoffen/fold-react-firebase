@@ -8,6 +8,7 @@
 
 # production
 /build
+/buildChromeExt
 
 # misc
 .DS_Store
