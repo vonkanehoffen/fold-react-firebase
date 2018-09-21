@@ -1,0 +1,12 @@
+{
+  "name": "Fold Extension",
+  "version": "1.0",
+  "manifest_version": 2,
+  "browser_action": {
+    "default_popup": "index.html",
+    "default_title": "Fold Extension from pce"
+  },
+  "permissions": [
+    "tabs"
+  ]
+}
