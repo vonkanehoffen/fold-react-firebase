@@ -33,7 +33,13 @@ switch(process.argv[2]) {
   case 'build':
     defaults = rewire('react-scripts/scripts/build.js');
     config = defaults.__get__('config');
-    let paths = defaults.__get__('paths');
+    paths = defaults.__get__('paths');
+    defaults.__set__('printFileSizesAfterBuild', function () {
+      console.log("Chrome extension built... Quitting before errors!")
+      process.exit();
+      // ...no idea how to fix this...
+      // defaults.__set__('printHostingInstructions', false);
+    });
 
     config.output.path = resolveApp('buildChromeExt')
     config.entry =  [
