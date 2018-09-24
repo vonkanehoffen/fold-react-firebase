@@ -40,6 +40,8 @@ class AuthScreen extends React.Component {
     );
 
     // Chrome extension google auth
+    // See https://developer.chrome.com/apps/app_identity
+    // https://github.com/firebase/quickstart-js/tree/master/auth/chromextension
     /*global chrome */
     if(chrome && chrome.identity) {
       chrome.identity.getAuthToken({ 'interactive': true }, function(token) {

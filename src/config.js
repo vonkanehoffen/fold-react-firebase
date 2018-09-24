@@ -6,7 +6,9 @@ const config = {
     projectId: "foldapp-8df86",
     storageBucket: "",
     messagingSenderId: "825457505870"
-  }
+  },
+  /*global chrome */
+  isChromeExt: chrome && !!chrome.identity
 }
 
 export default config

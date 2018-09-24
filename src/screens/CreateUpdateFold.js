@@ -13,6 +13,7 @@ import NavBar from '../containers/NavBar'
 import Background from '../components/Background'
 import Icon from '../components/Icon'
 import ErrorChip from '../components/ErrorChip'
+import config from '../config'
 
 class CreateUpdateFold extends Component {
 
@@ -29,6 +30,7 @@ class CreateUpdateFold extends Component {
   // If we're editing, we will have an existing ID passed in
   // ....so read data into state
   async componentDidMount() {
+
     const { id } = this.props.match.params
     if(id) {
       this.setLoading(true)
@@ -41,6 +43,16 @@ class CreateUpdateFold extends Component {
         this.setError(e.message)
       }
       this.setLoading(false)
+    }
+
+    if(config.isChromeExt) {
+      /*global chrome*/
+      chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, (tabs) => {
+        this.setState({
+          title: tabs[0].title,
+          uri: tabs[0].url,
+        })
+      })
     }
   }
 
@@ -106,7 +118,11 @@ class CreateUpdateFold extends Component {
     if(error) {
       this.setError(error)
     } else {
-      history.push('/')
+      if(config.isChromeExt) {
+        history.push('/successchrome')
+      } else {
+        history.push('/')
+      }
     }
 
   }
