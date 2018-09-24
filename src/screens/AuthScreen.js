@@ -38,6 +38,17 @@ class AuthScreen extends React.Component {
     this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(
       (user) => this.setState({isSignedIn: !!user})
     );
+
+    // Chrome extension google auth
+    /*global chrome */
+    if(chrome && chrome.identity) {
+      chrome.identity.getAuthToken({ 'interactive': true }, function(token) {
+        var credential = firebase.auth.GoogleAuthProvider.credential(null, token);
+        console.log('credential: ', credential)
+        firebase.auth().signInAndRetrieveDataWithCredential(credential);
+      });
+
+    }
   }
 
   // Make sure we un-register Firebase observers when the component unmounts.

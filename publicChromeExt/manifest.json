@@ -1,12 +1,21 @@
 {
-  "name": "Fold Extension",
+  "name": "Fold Firebase Extension",
   "version": "1.0",
   "manifest_version": 2,
   "browser_action": {
     "default_popup": "index.html",
-    "default_title": "Fold Extension from pce"
+    "default_title": "Fold Firebase"
   },
   "permissions": [
-    "tabs"
-  ]
+    "tabs", "identity"
+  ],
+  "oauth2": {
+    "client_id": "825457505870-b8l4dfa66d77fnc5maoqndd6lmo3m6c5.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/userinfo.email",
+      "https://www.googleapis.com/auth/userinfo.profile"
+    ]
+  },
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvCpNoAge+pF28CtRfpVOQCuKRIKb+SotqMuNTvhDYVzMmUfXJ0Iy6wafIjx0OHTSAFCoOlY+9w3TasS5bWmF4RJg7u6NiF6KOGg0WZGMURTyd+n4T3xzK61ts8kXXxmKuJ1qidEHpSmEaLLG6VgOy3cmwO/iGSyPfw1FYD578jX2uPq5KpQjtXCM0GVSbZgq/KeU0qbQxsVulOJjm+RnRSWCTKy6XH6fXB75A1oyCGgL7n3Lguqa3Y4pHieIRMEavM7Ei2dVQHTyyQr/zbHmQ7n3AkRiVvj74hR5gnNZ37MeE9mBdBrXJQql3bG4DKoLrNPsJXswFZSniCwvzwyZSQIDAQAB",
+  "content_security_policy":"script-src 'self' https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com; object-src 'self'"
 }

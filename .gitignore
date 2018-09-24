@@ -9,6 +9,7 @@
 # production
 /build
 /buildChromeExt
+foldChromeExt.zip
 
 # misc
 .DS_Store
