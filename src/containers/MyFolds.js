@@ -16,7 +16,7 @@ class MyFolds extends Component {
   }
 
   componentDidMount() {
-    db.collection('folds').where('userId', '==', firebase.auth().currentUser.uid).onSnapshot(doc => {
+    db.collection('folds').where('userId', '==', firebase.auth().currentUser.uid).orderBy('createdAt', 'desc').onSnapshot(doc => {
       const folds = doc.docs.map(doc => {
         return {
           id: doc.id,
