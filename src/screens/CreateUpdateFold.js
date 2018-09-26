@@ -53,6 +53,29 @@ class CreateUpdateFold extends Component {
           uri: tabs[0].url,
         })
       })
+
+      // Scrape the page meta
+      const setDescription = (description) => this.setState({ description })
+      // var port = chrome.runtime.connect();
+
+      chrome.runtime.onMessage.addListener(
+        function(request, sender, sendResponse) {
+          // TODO: Use url + title here to populate?
+          console.log(sender.tab ?
+            "from a content script:" + sender.tab.url :
+            "from the extension");
+          if (request.description) {
+            setDescription(request.description)
+          }
+        }
+      );
+
+      chrome.tabs.executeScript({
+        file: 'foldMetaScraper.js'
+      });
+
+
+
     }
   }
 

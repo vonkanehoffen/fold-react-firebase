@@ -7,7 +7,7 @@
     "default_title": "Fold Firebase"
   },
   "permissions": [
-    "tabs", "identity"
+    "tabs", "identity", "activeTab"
   ],
   "oauth2": {
     "client_id": "825457505870-b8l4dfa66d77fnc5maoqndd6lmo3m6c5.apps.googleusercontent.com",

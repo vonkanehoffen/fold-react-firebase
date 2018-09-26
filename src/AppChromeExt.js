@@ -36,7 +36,7 @@ class App extends Component {
 }
 
 const ExtOuter = styled.div`
-  width: 250px;
+  width: 400px;
   min-height: 250px;
 `
 
