@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import keycode from 'keycode'
-import firebase from 'firebase'
+import firebase from 'firebase/app'
+import 'firebase/firestore'
 import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import { db } from '../firebase'

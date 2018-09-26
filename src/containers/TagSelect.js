@@ -7,7 +7,8 @@ import TextInput from '../components/TextInput'
 import Tag from '../components/Tag'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { db } from '../firebase'
-import firebase from 'firebase'
+import firebase from 'firebase/app'
+import 'firebase/auth'
 import colors from '../colors'
 
 // See https://material-ui-next.com/demos/autocomplete/

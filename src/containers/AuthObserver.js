@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import firebase from 'firebase'
+import firebase from 'firebase/app'
+import 'firebase/auth'
 import { Redirect } from 'react-router-dom'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import FullScreenLoader from '../components/FullScreenLoader'

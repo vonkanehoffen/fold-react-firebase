@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components'
 import { Link, Redirect } from 'react-router-dom'
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/auth'
 import CenterVH from '../components/CenterVH'
 import Background from '../components/Background'
 import { db } from '../firebase'

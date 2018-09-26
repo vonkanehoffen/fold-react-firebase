@@ -1,9 +1,16 @@
-import firebase from 'firebase'
+import firebase from 'firebase/app'
+import 'firebase/firestore';
 import config from './config'
 
 firebase.initializeApp(config.firebase)
 
-firebase.firestore().enablePersistence()
+const firestore = firebase.firestore()
+
+firestore.settings({
+  timestampsInSnapshots: true,
+})
+
+firestore.enablePersistence()
   .catch(function(err) {
     console.log(err)
     if (err.code == 'failed-precondition') {
@@ -18,4 +25,4 @@ firebase.firestore().enablePersistence()
     // TODO: Show warnings
   });
 
-export const db = firebase.firestore()
+export const db = firestore
