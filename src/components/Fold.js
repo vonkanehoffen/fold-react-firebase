@@ -5,6 +5,7 @@ import Icon from '../components/Icon'
 import { colorFromString } from '../helpers/color'
 import SmallTag from './SmallTag'
 import SmallButton from './SmallButton'
+import media from '../helpers/mediaQueries'
 
 class Fold extends React.Component {
 
@@ -15,6 +16,7 @@ class Fold extends React.Component {
   toggleExpanded = () => this.setState(s => ({expanded: !s.expanded}))
 
   render() {
+    console.log(media)
 
     const { fold: { title, uri, tags, description }, edit, remove, setFilter } = this.props
     const color = colorFromString(tags[0])
@@ -45,7 +47,10 @@ class Fold extends React.Component {
 }
 
 const Outer = styled.div`
-  width: 33%;
+  width: 100%;
+  ${media.sm`width: 50%;`}
+  ${media.md`width: 33%;`}
+  ${media.lg`width: 326px;`}
 `
 const Card = styled.div`
   margin: .5rem 0 0 .5rem;

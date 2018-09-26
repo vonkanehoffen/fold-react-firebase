@@ -8,6 +8,7 @@ import 'firebase/auth'
 import Fold from '../components/Fold'
 import ErrorChip from '../components/ErrorChip'
 import NoFoldsCTA from '../components/NoFoldsCTA'
+import media from '../helpers/mediaQueries'
 
 class MyFolds extends Component {
 
@@ -80,6 +81,7 @@ class MyFolds extends Component {
 const Outer = styled.div`
   display: flex;
   flex-wrap: wrap;
+  ${media.lg`justify-content: center;`}
 `
 
 export default withRouter(MyFolds)
