@@ -45,27 +45,17 @@ class CreateUpdateFold extends Component {
       this.setLoading(false)
     }
 
+    // Scrape page meta if this is run as chrome extension
     if(config.isChromeExt) {
+
       /*global chrome*/
-      chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, (tabs) => {
-        this.setState({
-          title: tabs[0].title,
-          uri: tabs[0].url,
-        })
-      })
-
-      // Scrape the page meta
-      const setDescription = (description) => this.setState({ description })
-      // var port = chrome.runtime.connect();
-
-      chrome.runtime.onMessage.addListener(
-        function(request, sender, sendResponse) {
-          // TODO: Use url + title here to populate?
-          console.log(sender.tab ?
-            "from a content script:" + sender.tab.url :
-            "from the extension");
-          if (request.description) {
-            setDescription(request.description)
+      chrome.runtime.onMessage.addListener((request, sender) => {
+          if (request.scrape) {
+            this.setState({
+              title: sender.tab.title,
+              uri: sender.tab.url,
+              description: request.scrape.description
+            })
           }
         }
       );
@@ -73,8 +63,6 @@ class CreateUpdateFold extends Component {
       chrome.tabs.executeScript({
         file: 'foldMetaScraper.js'
       });
-
-
 
     }
   }
