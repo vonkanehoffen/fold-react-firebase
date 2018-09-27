@@ -14,7 +14,6 @@ class AuthObserver extends Component {
 
   componentDidMount() {
     this.unsubscribe = firebase.auth().onAuthStateChanged(user => {
-      console.log('onAuthStateChanged')
       this.setState({
         loading: false,
         user,

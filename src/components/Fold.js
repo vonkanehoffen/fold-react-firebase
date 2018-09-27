@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import IconButton from '../components/IconButton'
+import distanceInWordsToNow from 'date-fns/distance_in_words_to_now'
 import Icon from '../components/Icon'
 import { colorFromString } from '../helpers/color'
 import SmallTag from './SmallTag'
@@ -16,10 +17,11 @@ class Fold extends React.Component {
   toggleExpanded = () => this.setState(s => ({expanded: !s.expanded}))
 
   render() {
-    console.log(media)
 
-    const { fold: { title, uri, tags, description }, edit, remove, setFilter } = this.props
+    const { fold: { title, uri, tags, description, createdAt }, edit, remove, setFilter } = this.props
     const color = colorFromString(tags[0])
+
+    const dateDisplay = distanceInWordsToNow(createdAt.toDate(), { addSuffix: true });
 
     return (
       <Outer>
@@ -29,6 +31,7 @@ class Fold extends React.Component {
               <h4><a href={uri} target="new">{title}<Icon>link</Icon></a></h4>
               <IconButton onClick={this.toggleExpanded} icon="more_vert"/>
             </Title>
+            <p>{dateDisplay}</p>
             <Description>
               {description}
             </Description>
