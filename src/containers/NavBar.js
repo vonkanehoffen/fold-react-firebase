@@ -63,7 +63,7 @@ const NavBarOuter = styled.div`
   z-index: 100;
   display: flex;
   align-items: center;
-  background: ${colors.primary};
+  //background: ${colors.primary};
 `
 
 const HomeLink = styled(Link)`

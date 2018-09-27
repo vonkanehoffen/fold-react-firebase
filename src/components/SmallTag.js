@@ -4,12 +4,14 @@ import { colorFromString } from '../helpers/color'
 
 const StyledSmallTag = styled.div`
   display: inline-block;
-  font: bold .707rem Lato, sans-serif;
+  font-size: .8rem;
+  font-weight: 700;
+  line-height: 1.2rem;
   text-transform: capitalize;
-  margin: 0 .5rem 0 0;
+  margin-right: .5rem;
   padding: .2rem .5rem;
-  color: ${props => colorFromString(props.text)};
-  background: white;
+  background: ${props => colorFromString(props.text)};
+  color: white;
   border-radius: .2rem;
   cursor: pointer;
 `
