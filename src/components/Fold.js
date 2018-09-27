@@ -32,10 +32,10 @@ class Fold extends React.Component {
       <Outer>
         <Card style={{ background: color }}>
           <Title>
-            <h4><a href={uri} target="new">{title}</a></h4>
+            <h4 style={{ color }}><a href={uri} target="new">{title}</a></h4>
           </Title>
-          <Path><Icon>link</Icon>{hostname}{pathname && <span>{pathname}</span>}</Path>
-          <Date><Icon>access_time</Icon>{dateDisplay}</Date>
+          <Path style={{ color }}><Icon>link</Icon>{hostname}{pathname && <span>{pathname}</span>}</Path>
+          <Date style={{ color }}><Icon>access_time</Icon>{dateDisplay}</Date>
           <Description>
             {description}
           </Description>
@@ -71,7 +71,8 @@ const Card = styled.div`
 
 const Title = styled.div`
   display: flex;
-  padding: .5rem .5rem 0;
+  padding: 1rem .5rem 0;
+  background: black;
   h4 {
     flex: 1;
     white-space: nowrap;
@@ -85,11 +86,12 @@ const Title = styled.div`
 `
 
 const Path = styled.div`
+  background:#000;
   font-size: .707rem;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  padding: 0 .5rem .5rem;
+  padding: .5rem .5rem .5rem;
   span {
     opacity: .6;
   }
@@ -101,10 +103,11 @@ const Path = styled.div`
 `
 
 const Date = styled.div`
+  background:rgba(0,0,0,0.5);
   display: flex;
   align-items: center;
   font-size: .707rem;
-  padding: 0 .5rem;
+  padding: .5rem;
   .material-icons {
     font-size: 1rem;
     margin-right: .5rem;
