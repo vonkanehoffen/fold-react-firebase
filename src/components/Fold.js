@@ -31,12 +31,14 @@ class Fold extends React.Component {
               <h4><a href={uri} target="new">{title}<Icon>link</Icon></a></h4>
               <IconButton onClick={this.toggleExpanded} icon="more_vert"/>
             </Title>
-            <p>{dateDisplay}</p>
+            <Date>{dateDisplay}</Date>
             <Description>
               {description}
             </Description>
-            {tags.map(tag => <SmallTag key={tag} text={tag} onClick={() => setFilter([tag])}/>)}
           </Content>
+          <Tags>
+            {tags.map(tag => <SmallTag key={tag} text={tag} onClick={() => setFilter([tag])}/>)}
+          </Tags>
           {this.state.expanded &&
           <Actions>
             <SmallButton onClick={edit} title="Edit" foreground={color} background="black" icon="edit"/>
@@ -82,7 +84,22 @@ const Content = styled.div`
 `
 
 const Description = styled.div`
-  padding: .5em 0;
+  padding: 1rem 0;
+  text-overflow: ellipsis;
+  height: 4rem;
+  overflow: hidden;
+`
+
+const Date = styled.div`
+  font-size: .707rem;
+`
+
+const Tags = styled.div`
+  background: rgba(255,255,255,0.2);
+  padding: .5rem;
+  height: 1.3rem;
+  white-space: nowrap;
+  overflow: hidden;
 `
 
 const Actions = styled.div`
