@@ -24,6 +24,7 @@ const FAB = styled(Link)`
   border-radius: 50%;
   background: ${colors.primary};
   box-shadow: 0 5px 20px rgba(0,0,0,.5);
+  z-index: 10;
 `
 
 const Icon = styled(Add)`

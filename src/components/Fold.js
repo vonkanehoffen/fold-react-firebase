@@ -32,7 +32,7 @@ class Fold extends React.Component {
     return (
       <Outer>
         <Card color={color}>
-          <Title style={{ color }}><a href={uri} target="new">{title}</a></Title>
+          <Title><a href={uri} target="new">{title}</a></Title>
           <Path color={color}><MetaIcon color={color}>link</MetaIcon>{hostname}{pathname && <span>{pathname}</span>}</Path>
           <Date color={color}><MetaIcon color={color}>access_time</MetaIcon>{dateDisplay}</Date>
           <Description>
@@ -66,8 +66,8 @@ const Outer = styled.div`
 const Card = styled.div`
   margin: .5rem;
   position: relative;
-  border-top: .5rem solid ${props => props.color};
-  background: white;
+   border-top: .5rem solid ${colors.primary};
+  background: ${props => props.color};
 `
 
 const Title = styled.h4`
@@ -79,6 +79,7 @@ const Title = styled.h4`
   //line-height: 1.8rem;
   overflow: hidden;
   font-weight: 700;
+  //color: white;
   a {
     text-decoration: none;
     color: inherit;
@@ -86,7 +87,7 @@ const Title = styled.h4`
 `
 
 const MetaIcon = styled(Icon)`
-  color: ${props => props.color};
+  // color: ${props => props.color};
   font-size: 1rem;
   margin-right: .5rem;
   vertical-align: middle;
@@ -99,20 +100,23 @@ const Path = styled.div`
   text-overflow: ellipsis;
   overflow: hidden;
   padding: .5rem .5rem .1rem;
-  border-top: 2px solid #eee;
+  //border-top: 2px solid #eee;
+  background:rgba(0,0,0,0.2);
+  color: white;
   span {
-    color: rgba(0,0,0,.2);
+    opacity: .6;
   }
 `
 
 const Date = styled.div`
-  //background:rgba(0,0,0,0.5);
-  color: rgba(0,0,0,0.4);
+  background:rgba(0,0,0,0.2);
+  //color: rgba(0,0,0,0.4);
+  color: white;
   display: flex;
   align-items: center;
   font-size: .8rem;
   padding: 0 .5rem .5rem;
-  border-bottom: 2px solid #eee;
+  //border-bottom: 2px solid #eee;
 `
 
 // TODO: Ellipsis doen't work here... Not an elegant CSS solution really.
@@ -123,8 +127,8 @@ const Description = styled.div`
   margin: 1rem .5rem;
   text-overflow: ellipsis;
   overflow: hidden;
-  //line-height: 1.4rem;
-  height: 4.2rem; // (3*lh = 3 lines)
+  line-height: 1.4rem;
+  height: ${1.4*3}rem;
   //:after {
   //  position: absolute;
   //  content: ' ';
@@ -153,7 +157,7 @@ const StatusToggle = styled.div`
   width: 3rem;
   padding: .4rem;
   border-radius: 1rem;
-  background:#bfd4e4;
+  background:#597496;
   .material-icons {
     font-size: 1rem;
     color: white;

@@ -8,7 +8,7 @@ import Background from '../components/Background'
 const FullScreenLoader = (props) => {
   return (
     <CenterVH>
-      <Background color="#eee"/>
+      <Background color="#0f203c"/>
       <CircularProgress style={{color: colors.primary}}/>
     </CenterVH>
   )
