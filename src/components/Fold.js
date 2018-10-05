@@ -22,6 +22,7 @@ class Fold extends React.Component {
   render() {
 
     const { fold: { title, uri, tags, description, createdAt }, edit, remove, setFilter } = this.props
+    const { expanded } = this.state
     const color = colorFromString(tags[0])
     const btnColor = tinycolor(color).spin(180).toString()
 
@@ -32,17 +33,16 @@ class Fold extends React.Component {
     return (
       <Outer>
         <Card color={color}>
-          <Title><a href={uri} target="new">{title}</a></Title>
+          <Title {...{expanded}}><a href={uri} target="new">{title}</a></Title>
           <Path color={color}><MetaIcon color={color}>link</MetaIcon>{hostname}{pathname && <span>{pathname}</span>}</Path>
           <Date color={color}><MetaIcon color={color}>access_time</MetaIcon>{dateDisplay}</Date>
-          <Description>
+          <Description {...{expanded}}>
             {description}
           </Description>
           <StatusToggle onClick={this.toggleExpanded}>
-            <Icon>more_vert</Icon>
-            <Icon>mode_comment</Icon>
+            <Icon>{expanded ? 'expand_less' : 'expand_more'}</Icon>
           </StatusToggle>
-          <Tags>
+          <Tags {...{expanded}}>
             {tags.map(tag => <SmallTag key={tag} text={tag} onClick={() => setFilter([tag])}/>)}
           </Tags>
           {this.state.expanded &&
@@ -66,7 +66,7 @@ const Outer = styled.div`
 const Card = styled.div`
   margin: .5rem;
   position: relative;
-   border-top: .5rem solid ${colors.primary};
+  border-top: .5rem solid ${colors.primary};
   background: ${props => props.color};
 `
 
@@ -75,7 +75,7 @@ const Title = styled.h4`
   margin: .5rem .5rem .5rem;
   font-size: 1rem;
   line-height: 1.4rem;
-  height: ${1.4*2}rem;
+  ${p => p.expanded && 'min-'}height: ${1.4*2}rem;
   //line-height: 1.8rem;
   overflow: hidden;
   font-weight: 700;
@@ -128,7 +128,7 @@ const Description = styled.div`
   text-overflow: ellipsis;
   overflow: hidden;
   line-height: 1.4rem;
-  height: ${1.4*3}rem;
+  ${p => p.expanded && 'min-'}height: ${1.4*3}rem;
   //:after {
   //  position: absolute;
   //  content: ' ';
@@ -141,10 +141,14 @@ const Description = styled.div`
 `
 
 const Tags = styled.div`
-  padding: .5rem;
-  height: 1.6rem;
-  white-space: nowrap;
-  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  padding: .5rem .5rem 0;
+  ${p => !p.expanded && `
+    height: 2.1rem;
+    white-space: nowrap;
+    overflow: hidden;
+  `}
 `
 
 const StatusToggle = styled.div`
@@ -154,13 +158,18 @@ const StatusToggle = styled.div`
   align-items: center;
   bottom: .5rem;
   right: .5rem;
-  width: 3rem;
-  padding: .4rem;
+  width: 2rem;
+  padding: 0 .4rem;
   border-radius: 1rem;
   background:#597496;
+  transition: background-color .3s ease-in-out;
+  cursor: pointer;
   .material-icons {
-    font-size: 1rem;
+    //font-size: 1rem;
     color: white;
+  }
+  &:hover {
+    background:#6c8db0;
   }
 `
 
