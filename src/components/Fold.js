@@ -66,8 +66,8 @@ const Outer = styled.div`
 const Card = styled.div`
   margin: .5rem;
   position: relative;
-  border-top: .5rem solid ${colors.primary};
-  background: ${props => props.color};
+  border-top: .5rem solid ${props => props.color};
+  background: black;
 `
 
 const Title = styled.h4`
@@ -79,7 +79,7 @@ const Title = styled.h4`
   //line-height: 1.8rem;
   overflow: hidden;
   font-weight: 700;
-  //color: white;
+  color: ${colors.primary};
   a {
     text-decoration: none;
     color: inherit;
@@ -87,21 +87,18 @@ const Title = styled.h4`
 `
 
 const MetaIcon = styled(Icon)`
-  // color: ${props => props.color};
+  color: white;
   font-size: 1rem;
   margin-right: .5rem;
   vertical-align: middle;
 `
 const Path = styled.div`
   font-size: .8rem;
-  color: rgba(0,0,0,0.4);
   font-weight: 600;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
   padding: .5rem .5rem .1rem;
-  //border-top: 2px solid #eee;
-  background:rgba(0,0,0,0.2);
   color: white;
   span {
     opacity: .6;
@@ -109,9 +106,7 @@ const Path = styled.div`
 `
 
 const Date = styled.div`
-  background:rgba(0,0,0,0.2);
-  //color: rgba(0,0,0,0.4);
-  color: white;
+  color: rgba(255,255,255,.6);
   display: flex;
   align-items: center;
   font-size: .8rem;
@@ -129,6 +124,7 @@ const Description = styled.div`
   overflow: hidden;
   line-height: 1.4rem;
   ${p => p.expanded && 'min-'}height: ${1.4*3}rem;
+  color: white;
   //:after {
   //  position: absolute;
   //  content: ' ';
