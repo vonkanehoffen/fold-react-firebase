@@ -3,7 +3,7 @@ const colors = {
   secondary: '#a800ff',
   tertiary: '#00ffa2',
   pageBg: '#0f203c',
-  controlBg: '#597496',
+  controlBg: '#2a4b75',
   cardBg1: '#6683a7',
   cardBg2: '#a842c6',
   cardBg3: '#4255c6',

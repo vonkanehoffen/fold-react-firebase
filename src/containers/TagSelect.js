@@ -137,7 +137,8 @@ class TagSelect extends React.Component {
               <Tag
                 key={item}
                 tabIndex={-1}
-                remove={this.handleDelete(item)}
+                onClick={this.handleDelete(item)}
+                removeIcon
               >{item}</Tag>
             ))}
             <div style={{flex: 1}}>

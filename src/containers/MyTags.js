@@ -6,7 +6,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import { colorFromString } from '../helpers/color'
 import colors from '../colors'
 import PropTypes from 'prop-types'
-// import Tag from '../components/Tag'
+import Tag from '../components/Tag'
 
 class MyTags extends Component {
 
@@ -53,9 +53,15 @@ class MyTags extends Component {
 
     return (
       <Outer>
-        {userTags.map(tag =>
-          <Tag color={colorFromString(tag)} key={tag} onClick={() => this.toggleTag(tag)}>
-            {selectedTags.includes(tag) && <i className="material-icons">close</i>}
+        {userTags
+          .filter(tag => !selectedTags.includes(tag))
+          .map(tag =>
+          <Tag
+            color={colorFromString(tag)}
+            key={tag}
+            onClick={() => this.toggleTag(tag)}
+            removeIcon={selectedTags.includes(tag)}
+          >
             {tag}
           </Tag>
         )}
@@ -68,6 +74,7 @@ class MyTags extends Component {
 const Outer = styled.div`
   display: flex;
   overflow: auto;
+  padding: 1rem .5rem .5rem;
   ::-webkit-scrollbar { 
     background:${colors.pageBg};
   }
@@ -79,17 +86,4 @@ const Outer = styled.div`
   }
 `
 
-const Tag = styled.div`
-  display: inline-flex;
-  align-items: center;
-  color: white;
-  background:${props => props.color};
-  padding: 1rem 1rem;
-  line-height: 1rem;
-  margin: 1rem .5rem;
-  border-radius: 5px;
-  cursor: pointer;
-  text-transform: capitalize;
-  
-`
 export default MyTags 

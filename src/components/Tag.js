@@ -3,13 +3,11 @@ import styled from 'styled-components'
 import colors from '../colors'
 
 
-const Tag = ({ add, remove, outline, children }) => {
+const Tag = ({ addIcon, removeIcon, onClick, outline, children, color }) => {
   return (
-    <Outer onClick={add || remove} outline={outline}>
-      <Action>
-        {add && <i className="material-icons">add_box</i>}
-        {remove && <i className="material-icons">close</i>}
-      </Action>
+    <Outer onClick={onClick} outline={outline} color={color}>
+      {addIcon && <i className="material-icons">add_box</i>}
+      {removeIcon && <i className="material-icons">close</i>}
       <Title>
         {children}
       </Title>
@@ -18,27 +16,34 @@ const Tag = ({ add, remove, outline, children }) => {
 }
 
 const Outer = styled.div`
-  display: inline-flex;
-  align-items: center;
+  display: inline-block;
   background: black;
   border-radius: 5px;
-  border: 2px solid black;
   color: ${colors.primary};
   margin-right: .5rem;
   cursor: pointer;
   text-transform: capitalize;
-  ${props => props.outline && `
+  line-height: 2.7rem;
+  height: 2.7rem;
+  white-space: nowrap;
+  padding: 0 1rem .1rem 1rem;
+  .material-icons {
+    vertical-align: middle;
+    margin-left: -.5rem;
+  }
+  ${props => props.outline && ` // not used....
     background: ${colors.primary};
     color: black;
   `}
-`
-
-const Action = styled.div`
-  padding: .25rem;
+  ${props => props.color && `
+    background: ${props.color};
+    color: white;
+  `}
 `
 
 const Title = styled.div`
-  padding: .5rem;
+  display: inline;
+  vertical-align: middle;
 `
 
 export default Tag

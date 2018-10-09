@@ -82,7 +82,6 @@ const Outer = styled.div`
   display: flex;
   flex-wrap: wrap;
   ${media.lg`justify-content: center;`}
-  margin-top: 1rem;
 `
 
 export default withRouter(MyFolds)
