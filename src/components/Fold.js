@@ -157,7 +157,7 @@ const StatusToggle = styled.div`
   width: 2rem;
   padding: 0 .4rem;
   border-radius: 1rem;
-  background:#597496;
+  background: ${colors.controlBg};
   transition: background-color .3s ease-in-out;
   cursor: pointer;
   .material-icons {
