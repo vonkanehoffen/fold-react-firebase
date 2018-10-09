@@ -8,7 +8,7 @@ const config = {
     messagingSenderId: "825457505870"
   },
   /*global chrome */
-  isChromeExt: chrome && !!chrome.identity
+  isChromeExt: typeof chrome !== "undefined" && !!chrome.identity,
 }
 
 export default config

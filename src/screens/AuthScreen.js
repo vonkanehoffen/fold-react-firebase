@@ -44,7 +44,7 @@ class AuthScreen extends React.Component {
     // See https://developer.chrome.com/apps/app_identity
     // https://github.com/firebase/quickstart-js/tree/master/auth/chromextension
     /*global chrome */
-    if(chrome && chrome.identity) {
+    if(typeof chrome !== 'undefined' && chrome.identity) {
       chrome.identity.getAuthToken({ 'interactive': true }, function(token) {
         var credential = firebase.auth.GoogleAuthProvider.credential(null, token);
         console.log('credential: ', credential)
