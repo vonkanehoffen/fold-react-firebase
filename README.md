@@ -14,6 +14,11 @@ Admin: https://chrome.google.com/webstore/developer/dashboard
 
 [Chrome Client 1](https://console.cloud.google.com/apis/credentials?project=foldapp-8df86) for oAuth client ID
 
+## Deploy
+
+```
+yarn build && firebase deploy
+```
 
 ## TODO:
  - Auto populate last used tags on Create screen
