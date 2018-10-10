@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import AppChromeExt from './AppChromeExt';
-import registerServiceWorker from './registerServiceWorker';
+import * as serviceWorker from './serviceWorker';
 
 const rootEl = document.getElementById('root')
 
@@ -21,4 +21,4 @@ if (module.hot) {
   })
 }
 
-registerServiceWorker();
+serviceWorker.register();
