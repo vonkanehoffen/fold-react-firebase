@@ -64,8 +64,9 @@ class MyFolds extends Component {
     const displayedFolds = folds.filter(fold => {
         if(filterTags.length < 1) return true
         for(let term of filterTags) {
-          if(fold.tags.includes(term)) return true
+          if(!fold.tags.includes(term)) return false
         }
+        return true
       })
 
     let tags = []
