@@ -38,8 +38,8 @@ class NavBar extends Component {
             <IconButton icon="more_vert" onClick={this.toggleMenu}/>
             {this.state.menuOpen &&
             <Menu>
-              <p>Hello, {firebase.auth().currentUser.displayName}</p>
-              <Link to="/about">About</Link>
+              <UserHello>Hello, {firebase.auth().currentUser.displayName}</UserHello>
+              <MenuLink to="/about">About</MenuLink>
               <Button variant="outlined" onClick={this.signOut}>Sign Out</Button>
               <Button variant="flat" onClick={this.deleteAccount}>Delete account</Button>
             </Menu>
@@ -90,5 +90,15 @@ const Menu = styled.div`
   flex-direction: column;
 `
 
+const UserHello = styled.div`
+  font-weight: bold;
+  padding: 1rem;
+`
+
+const MenuLink = styled(Link)`
+  padding: 1rem;
+  text-decoration: none;
+  color: inherit;
+`
 
 export default NavBar 
