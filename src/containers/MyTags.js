@@ -12,56 +12,33 @@ import Tag from '../components/Tag'
 class MyTags extends Component {
 
   static propTypes = {
-    selectedTags: PropTypes.array.isRequired,
-    setTags: PropTypes.func.isRequired,
-  }
-
-  state = {
-    inputValue: '',
-    loading: true,
-    userTags: [],
-  }
-
-  componentDidMount() {
-    this.unsubscribe = db.collection('userTags').doc(firebase.auth().currentUser.uid).onSnapshot(doc => {
-      this.setState({
-        loading: false,
-        userTags: doc.data() ? doc.data().tags : []
-      })
-    })
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe()
+    filterTags: PropTypes.array.isRequired,
+    setFilterTags: PropTypes.func.isRequired,
   }
 
   toggleTag = (tag) => {
-    const { setTags, selectedTags } = this.props
-    if(selectedTags.includes(tag)) {
-      setTags(selectedTags.filter(t => t !== tag))
+    const { setFilterTags, filterTags } = this.props
+    if(filterTags.includes(tag)) {
+      setFilterTags(filterTags.filter(t => t !== tag))
     } else {
-      setTags([tag, ...selectedTags])
+      setFilterTags([tag, ...filterTags])
     }
   }
 
   render() {
-    const { selectedTags } = this.props;
-    const { inputValue, loading, userTags } = this.state;
+    const { tags, filterTags } = this.props;
 
-    if(loading) return <CircularProgress/>
-
-    if(userTags.length < 1) return false
+    if(tags.length < 1) return false
 
     return (
       <Outer>
-        {userTags
-          .filter(tag => !selectedTags.includes(tag))
+        {tags
           .map(tag =>
           <Tag
             color={colorFromString(tag)}
             key={tag}
             onClick={() => this.toggleTag(tag)}
-            removeIcon={selectedTags.includes(tag)}
+            removeIcon={filterTags.includes(tag)}
           >
             {tag}
           </Tag>

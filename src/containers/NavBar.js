@@ -86,6 +86,8 @@ const Menu = styled.div`
   background: ${colors.primary};
   right: 0;
   width: 300px;
+  display: flex;
+  flex-direction: column;
 `
 
 

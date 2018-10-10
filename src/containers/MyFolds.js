@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import _ from 'lodash'
 import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import { db } from '../firebase'
@@ -9,8 +11,14 @@ import Fold from '../components/Fold'
 import ErrorChip from '../components/ErrorChip'
 import NoFoldsCTA from '../components/NoFoldsCTA'
 import media from '../helpers/mediaQueries'
+import MyTags from './MyTags'
 
 class MyFolds extends Component {
+
+  static propTypes = {
+    filterTags: PropTypes.array.isRequired,
+    setFilter: PropTypes.func.isRequired,
+  }
 
   state = {
     loading: true,
@@ -52,27 +60,36 @@ class MyFolds extends Component {
     if(loading) return <FullScreenLoader/>
 
     if(!folds || !folds.length) return <NoFoldsCTA/>
-    
+
+    const displayedFolds = folds.filter(fold => {
+        if(filterTags.length < 1) return true
+        for(let term of filterTags) {
+          if(fold.tags.includes(term)) return true
+        }
+      })
+
+    let tags = []
+
+    displayedFolds.forEach(f => {
+      tags.push(...f.tags)
+    })
+
+    tags = [...new Set(tags)] // de-dupe
+
     return (
-      <Outer>
-        {folds
-
-          .filter(fold => {
-            if(filterTags.length < 1) return true
-            for(let term of filterTags) {
-              if(fold.tags.includes(term)) return true
-            }
-          })
-
-          .map(fold =>
-          <Fold
-            fold={fold}
-            key={fold.id}
-            edit={() => this.editFold(fold.id)}
-            remove={() => this.removeFold(fold.id)}
-            setFilter={setFilter}
-          />)}
-      </Outer>
+      <div>
+        <MyTags tags={tags} filterTags={filterTags} setFilterTags={setFilter}/>
+        <Outer>
+          {displayedFolds.map(fold =>
+            <Fold
+              fold={fold}
+              key={fold.id}
+              edit={() => this.editFold(fold.id)}
+              remove={() => this.removeFold(fold.id)}
+              setFilter={setFilter}
+            />)}
+        </Outer>
+      </div>
     )
   }
 

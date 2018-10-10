@@ -24,7 +24,6 @@ class HomeScreen extends Component {
         <NavBar>
           <TagSelect selectedTags={this.state.filterTags} setTags={this.setFilter}/>
         </NavBar>
-        <MyTags selectedTags={this.state.filterTags} setTags={this.setFilter}/>
         <NewFAB/>
         <MyFolds filterTags={this.state.filterTags} setFilter={this.setFilter}/>
       </Outer>
