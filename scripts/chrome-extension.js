@@ -22,31 +22,25 @@ switch(process.argv[2]) {
     defaults = rewire('react-scripts/scripts/start.js');
     config = defaults.__get__('config');
     config.entry = [
-      'react-scripts/config/polyfills.js',
-      'react-dev-utils/webpackHotDevClient.js',
-      './src/indexChromeExt.js'
+      resolveApp('node_modules/react-dev-utils/webpackHotDevClient.js'),
+      resolveApp('src/indexChromeExt.js'),
     ]
 
     break;
 
   // The "build" script is run to produce a production bundle
+  // Note CRA2 adds inline script, and to get Chrome to be OK with this, an sha256 hash for it needs to be added in manifest.json
+  // See https://developer.chrome.com/extensions/contentSecurityPolicy#relaxing-inline-script
+  // That hash is in chrome://extensions debug output
   case 'build':
     defaults = rewire('react-scripts/scripts/build.js');
     config = defaults.__get__('config');
     paths = defaults.__get__('paths');
-    defaults.__set__('printFileSizesAfterBuild', function () {
-      console.log("Chrome extension built... Quitting before errors!")
-      process.exit();
-      // ...no idea how to fix this...
-      // defaults.__set__('printHostingInstructions', false);
-    });
 
     config.output.path = resolveApp('buildChromeExt')
     config.entry =  [
-      'react-scripts/config/polyfills.js',
-      './src/indexChromeExt.js'
+      resolveApp('src/indexChromeExt.js'),
     ]
-
     paths.dotenv = resolveApp('.env')
     paths.appBuild = resolveApp('buildChromeExt')
     paths.appPublic = resolveApp('publicChromeExt')
