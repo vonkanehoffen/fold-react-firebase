@@ -10,6 +10,7 @@ import colors from '../colors'
 import foldLogo from '../images/foldLogo@2x.png'
 import ErrorChip from '../components/ErrorChip'
 import { EmailButton, GithubButton, GoogleButton } from '../components/SignInButtons'
+import config from '../config'
 
 class AuthScreen extends React.Component {
 
@@ -23,6 +24,11 @@ class AuthScreen extends React.Component {
   googleProvider = new firebase.auth.GoogleAuthProvider()
   githubProvider = new firebase.auth.GithubAuthProvider()
 
+  /**
+   * Normal app auth
+   * @param provider
+   * @returns {Promise<void>}
+   */
   doSignIn = async (provider) => {
     try {
       const result = await firebase.auth().signInWithPopup(provider)
@@ -34,24 +40,25 @@ class AuthScreen extends React.Component {
     }
   }
 
+  /**
+   * Chrome extension google auth
+   * See https://developer.chrome.com/apps/app_identity
+   * https://github.com/firebase/quickstart-js/tree/master/auth/chromextension
+   */
+  doChromeExtensionGoogleSignIn = () => {
+    /*global chrome */
+    chrome.identity.getAuthToken({ 'interactive': true }, function(token) {
+      var credential = firebase.auth.GoogleAuthProvider.credential(null, token);
+      console.log('credential: ', credential)
+      firebase.auth().signInAndRetrieveDataWithCredential(credential);
+    });
+  }
+
   // Listen to the Firebase Auth state and set the local state.
   componentDidMount() {
     this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(
       (user) => this.setState({isSignedIn: !!user})
-    );
-
-    // Chrome extension google auth
-    // See https://developer.chrome.com/apps/app_identity
-    // https://github.com/firebase/quickstart-js/tree/master/auth/chromextension
-    /*global chrome */
-    if(typeof chrome !== 'undefined' && chrome.identity) {
-      chrome.identity.getAuthToken({ 'interactive': true }, function(token) {
-        var credential = firebase.auth.GoogleAuthProvider.credential(null, token);
-        console.log('credential: ', credential)
-        firebase.auth().signInAndRetrieveDataWithCredential(credential);
-      });
-
-    }
+    )
   }
 
   // Make sure we un-register Firebase observers when the component unmounts.
@@ -69,7 +76,7 @@ class AuthScreen extends React.Component {
           <Inner>
             <Logo src={foldLogo}/>
             <h1>Bookmarking <span>Reimagined.</span></h1>
-            <GoogleButton onClick={() => this.doSignIn(this.googleProvider)}/>
+            <GoogleButton onClick={() => config.isChromeExt ? this.doChromeExtensionGoogleSignIn() : this.doSignIn(this.googleProvider)}/>
             <GithubButton onClick={() => this.doSignIn(this.githubProvider)}/>
             <Link to="/auth/email">
               <EmailButton/>
