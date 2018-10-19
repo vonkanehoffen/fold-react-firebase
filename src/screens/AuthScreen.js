@@ -72,12 +72,12 @@ class AuthScreen extends React.Component {
     if (!isSignedIn) {
       return (
         <CenterVH>
-          <Background color="black"/>
+          <Background color={colors.pageBg}/>
           <Inner>
             <Logo src={foldLogo}/>
             <h1>Bookmarking <span>Reimagined.</span></h1>
             <GoogleButton onClick={() => config.isChromeExt ? this.doChromeExtensionGoogleSignIn() : this.doSignIn(this.googleProvider)}/>
-            <GithubButton onClick={() => this.doSignIn(this.githubProvider)}/>
+            {/*<GithubButton onClick={() => this.doSignIn(this.githubProvider)}/>*/}
             <Link to="/auth/email">
               <EmailButton/>
             </Link>

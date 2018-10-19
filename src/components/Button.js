@@ -13,10 +13,10 @@ const Button = styled.div`
   border-radius: 5px;
   cursor: pointer;
   ${props => props.secondary && `opacity: 0.4`}
-  :hover {
-    background: ${props => props.filled && 'black' || props.mainColor || 'black'};
-    color: ${props => props.filled ? props.mainColor : (props.mainColor ? 'black' : colors.primary)}
-  }
+  // :hover {
+  //   background: ${props => props.filled && 'black' || props.mainColor || 'black'};
+  //   color: ${props => props.filled ? props.mainColor : (props.mainColor ? 'black' : colors.primary)}
+  // }
 `
 
 

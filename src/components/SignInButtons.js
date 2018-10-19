@@ -7,13 +7,16 @@ import github from '../images/github.svg'
 
 const SpacedButton = styled(Button)`
   margin: .5rem;
+  .material-icons {
+    vertical-align: middle;
+    margin: 0 1rem 0 -.5rem;
+  }
 `
 
 const Logo = styled.img`
   width: 24px;
   vertical-align: middle;
-  margin: 0 1rem 0 -.5rem;
-  
+  margin: 0 1rem 0 -.5rem;  
 `
 
 export const GoogleButton = (props) =>
@@ -29,4 +32,7 @@ export const GithubButton = (props) =>
   </SpacedButton>
 
 export const EmailButton = () =>
-  <SpacedButton mainColor={colors.primary} filled>Sign in with Email</SpacedButton>
+  <SpacedButton mainColor={colors.primary} filled>
+    <i className="material-icons">mail</i>
+    Sign in with Email
+  </SpacedButton>
